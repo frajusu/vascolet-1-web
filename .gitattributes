@@ -1,0 +1,4 @@
+* text=auto eol=lf
+# Original resource hashes must survive checkout on Windows and Linux.
+assets/** -text whitespace=cr-at-eol
+assets/data/*.json text eol=lf

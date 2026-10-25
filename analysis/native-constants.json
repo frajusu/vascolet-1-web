@@ -1,0 +1,59 @@
+{
+  "binarySha256": "7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71",
+  "gravity": {
+    "address": "0050a7c0",
+    "value": 1800.0
+  },
+  "speed": {
+    "address": "0050a7c4",
+    "value": 250.0
+  },
+  "climb": {
+    "address": "0050a820",
+    "value": 150.0
+  },
+  "width": {
+    "address": "004eef3c",
+    "value": 50.0
+  },
+  "height": {
+    "address": "004eef38",
+    "value": 90.0
+  },
+  "jumps": {
+    "address": "0050a7d0",
+    "values": [
+      600.0,
+      700.0,
+      790.0,
+      810.0,
+      850.0
+    ]
+  },
+  "doubleJumps": {
+    "address": "0050a7f8",
+    "values": [
+      0.0,
+      640.0,
+      680.0,
+      720.0,
+      760.0
+    ]
+  },
+  "roomColumns": {
+    "address": "004eee0c",
+    "value": 16.0
+  },
+  "roomRows": {
+    "address": "004eedd0",
+    "value": 12.0
+  },
+  "nativeViewportWidth": {
+    "address": "004eef78",
+    "value": 1200.0
+  },
+  "nativeViewportHeight": {
+    "address": "004eee64",
+    "value": 900.0
+  }
+}

@@ -1,0 +1,12 @@
+import { build } from 'esbuild';
+import { cp,mkdir,readFile,rm,writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url)),dest=path.join(root,'_site');
+await rm(dest,{recursive:true,force:true});await mkdir(dest,{recursive:true});
+const result=await build({absWorkingDir:root,entryPoints:['js/main.js'],bundle:true,format:'esm',target:'es2022',outdir:path.join(dest,'js'),entryNames:'app-[hash]',metafile:true});
+const entry=Object.entries(result.metafile.outputs).find(([,i])=>i.entryPoint==='js/main.js')[0];
+const module=path.relative(dest,path.resolve(root,entry)).replaceAll('\\','/');
+await writeFile(path.join(dest,'index.html'),(await readFile(path.join(root,'index.html'),'utf8')).replace('./js/main.js','./'+module));
+await cp(path.join(root,'style.css'),path.join(dest,'style.css'));await cp(path.join(root,'assets'),path.join(dest,'assets'),{recursive:true});
+await writeFile(path.join(dest,'.nojekyll'),'');console.log('Built',module);

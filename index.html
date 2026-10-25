@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#b30e1d">
+  <meta name="description" content="Vuelve a viajar por la Prehistoria, Egipto, los piratas, Camelot y el futuro. Vascolet: La máquina del tiempo, ahora en tu navegador.">
+  <title>Vascolet 1 · La máquina del tiempo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="cabinet">
+    <header class="masthead">
+      <a href="./" class="wordmark" aria-label="Vascolet, inicio">VASCOLET <span>LA MÁQUINA DEL TIEMPO</span></a>
+      <div class="edition">BATOVÍ · 2010 <span>EDICIÓN WEB NO OFICIAL</span></div>
+    </header>
+    <section class="stage" aria-label="Juego">
+      <canvas id="game" width="800" height="600" tabindex="0" aria-label="Vascolet. Flechas para moverte, espacio para saltar, Escape para pausar."></canvas>
+      <div id="panels" class="panels"></div>
+      <div id="loading" class="loading" role="status"><strong>Preparando la máquina…</strong><span>Cargando los recursos originales</span></div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <div id="touch" class="touch-controls" aria-label="Controles táctiles" hidden>
+        <div class="dpad"><button data-key="ArrowLeft" aria-label="Izquierda">◀</button><div><button data-key="ArrowUp" aria-label="Subir">▲</button><button data-key="ArrowDown" aria-label="Bajar">▼</button></div><button data-key="ArrowRight" aria-label="Derecha">▶</button></div>
+        <button class="jump" data-key="Space" aria-label="Saltar">SALTAR</button>
+      </div>
+      <button id="pause" class="corner-button" aria-label="Pausar" hidden>Ⅱ</button>
+    </section>
+    <nav class="timeline" aria-label="Las cinco épocas">
+      <button data-era="0"><span>65 MILLONES A. C.</span>Prehistoria<i></i></button>
+      <button data-era="1"><span>1250 A. C.</span>Egipto<i></i></button>
+      <button data-era="2"><span>1710</span>Piratas<i></i></button>
+      <button data-era="3"><span>CAMELOT</span>Castillo<i></i></button>
+      <button data-era="4"><span>EL MAÑANA</span>Futuro<i></i></button>
+    </nav>
+    <footer class="footnotes"><p><kbd>←</kbd><kbd>→</kbd> Caminar <kbd>↑</kbd><kbd>↓</kbd> Escaleras <kbd>Espacio</kbd> Saltar <kbd>Esc</kbd> Pausa</p><button id="fullscreen">Pantalla completa ↗</button></footer>
+    <p class="credits">Un viaje de vuelta al juego de Batoví. Port de preservación en desarrollo · <a href="https://github.com/frajusu/vascolet-1-web" target="_blank" rel="noreferrer">Código y estado del proyecto</a></p>
+  </main>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

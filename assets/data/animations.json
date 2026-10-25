@@ -1,0 +1,1757 @@
+{
+  "playerAnimations": [
+    {
+      "key": "WALK",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 1,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 2,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 3,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 4,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 5,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 6,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 7,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 8,
+          "duration": 4
+        }
+      ],
+      "site": "0x42b51b"
+    },
+    {
+      "key": "D_WALK",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "D_VASCOLET",
+          "frame": 8,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 9,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 10,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 11,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 4,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 5,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 6,
+          "duration": 6
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 7,
+          "duration": 6
+        }
+      ],
+      "site": "0x42b5fd"
+    },
+    {
+      "key": "P_WALK",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "P_VASCOLET",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "P_VASCOLET",
+          "frame": 2,
+          "duration": 6
+        }
+      ],
+      "site": "0x42b6ea"
+    },
+    {
+      "key": "P_JUMP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "P_VASCOLET",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "P_VASCOLET",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "P_VASCOLET",
+          "frame": 3,
+          "duration": 6
+        }
+      ],
+      "site": "0x42b7cd"
+    },
+    {
+      "key": "JUMP",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 9,
+          "duration": 30
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 10,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 11,
+          "duration": 4
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 12,
+          "duration": 4
+        }
+      ],
+      "site": "0x42b9ab"
+    },
+    {
+      "key": "D_JUMP",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "D_VASCOLET",
+          "frame": 15,
+          "duration": 10
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 15,
+          "duration": 25
+        },
+        {
+          "asset": "D_VASCOLET",
+          "frame": 15,
+          "duration": 4
+        }
+      ],
+      "site": "0x42ba9b"
+    },
+    {
+      "key": "CLIMB",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 21,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 22,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 21,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 23,
+          "duration": 10
+        }
+      ],
+      "site": "0x42bc8a"
+    },
+    {
+      "key": "END_CLIMB",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 17,
+          "duration": 5
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 18,
+          "duration": 5
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 19,
+          "duration": 5
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 20,
+          "duration": 5
+        }
+      ],
+      "site": "0x42befb"
+    },
+    {
+      "key": "BEGIN_CLIMB",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 20,
+          "duration": 6
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 19,
+          "duration": 6
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 18,
+          "duration": 6
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 17,
+          "duration": 6
+        }
+      ],
+      "site": "0x42c058"
+    },
+    {
+      "key": "HIT_GROUND",
+      "fps": 12,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 13,
+          "duration": 10
+        }
+      ],
+      "site": "0x42c178"
+    },
+    {
+      "key": "HURT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 14,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 15,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 16,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 16,
+          "duration": 20
+        }
+      ],
+      "site": "0x42c288"
+    },
+    {
+      "key": "D_HURT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 14,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 15,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 16,
+          "duration": 10
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 16,
+          "duration": 20
+        }
+      ],
+      "site": "0x42c37e"
+    },
+    {
+      "key": "GET_UP",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "VASCOLET",
+          "frame": 20,
+          "duration": 5
+        },
+        {
+          "asset": "VASCOLET",
+          "frame": 0,
+          "duration": 5
+        }
+      ],
+      "site": "0x42c4a9"
+    }
+  ],
+  "enemyAnimations": [
+    {
+      "key": "ESCORPION_R",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "ESCORPION_R",
+          "frame": 0,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 4,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 5,
+          "duration": 6
+        },
+        {
+          "asset": "ESCORPION_R",
+          "frame": 6,
+          "duration": 6
+        }
+      ],
+      "site": "0x434861"
+    },
+    {
+      "key": "SNAKE",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "SNAKE",
+          "frame": 0,
+          "duration": 4
+        },
+        {
+          "asset": "SNAKE",
+          "frame": 1,
+          "duration": 4
+        },
+        {
+          "asset": "SNAKE",
+          "frame": 2,
+          "duration": 60
+        },
+        {
+          "asset": "SNAKE",
+          "frame": 3,
+          "duration": 4
+        }
+      ],
+      "site": "0x4349bb"
+    },
+    {
+      "key": "SNAKE_ROBOT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "SNAKE_ROBOT",
+          "frame": 0,
+          "duration": 4
+        },
+        {
+          "asset": "SNAKE_ROBOT",
+          "frame": 1,
+          "duration": 4
+        },
+        {
+          "asset": "SNAKE_ROBOT",
+          "frame": 2,
+          "duration": 60
+        },
+        {
+          "asset": "SNAKE_ROBOT",
+          "frame": 3,
+          "duration": 4
+        }
+      ],
+      "site": "0x434b1e"
+    },
+    {
+      "key": "PTERODACTILE",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PTERODACTILE",
+          "frame": 0,
+          "duration": 6
+        },
+        {
+          "asset": "PTERODACTILE",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "PTERODACTILE",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "PTERODACTILE",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "PTERODACTILE",
+          "frame": 4,
+          "duration": 6
+        }
+      ],
+      "site": "0x434c82"
+    },
+    {
+      "key": "DINOSAUR_BIG",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 0,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 1,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 2,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 3,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 4,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 5,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 6,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 7,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 8,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 9,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_BIG",
+          "frame": 10,
+          "duration": 4
+        }
+      ],
+      "site": "0x434ddd"
+    },
+    {
+      "key": "DINOSAUR_SMALL",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 0,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 1,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 2,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 3,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 4,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 5,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 6,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 7,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 8,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 9,
+          "duration": 4
+        },
+        {
+          "asset": "DINOSAUR_SMALL",
+          "frame": 10,
+          "duration": 4
+        }
+      ],
+      "site": "0x434f39"
+    },
+    {
+      "key": "PIRATE",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PIRATE",
+          "frame": 0,
+          "duration": 16
+        },
+        {
+          "asset": "PIRATE",
+          "frame": 1,
+          "duration": 16
+        },
+        {
+          "asset": "PIRATE",
+          "frame": 0,
+          "duration": 16
+        },
+        {
+          "asset": "PIRATE",
+          "frame": 2,
+          "duration": 16
+        }
+      ],
+      "site": "0x435092"
+    },
+    {
+      "key": "TEMPLARY",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "TEMPLARY",
+          "frame": 0,
+          "duration": 16
+        },
+        {
+          "asset": "TEMPLARY",
+          "frame": 1,
+          "duration": 16
+        },
+        {
+          "asset": "TEMPLARY",
+          "frame": 0,
+          "duration": 16
+        },
+        {
+          "asset": "TEMPLARY",
+          "frame": 2,
+          "duration": 16
+        }
+      ],
+      "site": "0x435380"
+    },
+    {
+      "key": "MUMMY",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "MUMMY",
+          "frame": 0,
+          "duration": 16
+        },
+        {
+          "asset": "MUMMY",
+          "frame": 1,
+          "duration": 16
+        },
+        {
+          "asset": "MUMMY",
+          "frame": 2,
+          "duration": 16
+        },
+        {
+          "asset": "MUMMY",
+          "frame": 3,
+          "duration": 16
+        },
+        {
+          "asset": "MUMMY",
+          "frame": 4,
+          "duration": 16
+        },
+        {
+          "asset": "MUMMY",
+          "frame": 5,
+          "duration": 16
+        }
+      ],
+      "site": "0x43566e"
+    },
+    {
+      "key": "ENEMY_DEATH",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "ENEMY_DEATH",
+          "frame": 0,
+          "duration": 8
+        },
+        {
+          "asset": "ENEMY_DEATH",
+          "frame": 1,
+          "duration": 8
+        },
+        {
+          "asset": "ENEMY_DEATH",
+          "frame": 2,
+          "duration": 8
+        },
+        {
+          "asset": "ENEMY_DEATH",
+          "frame": 3,
+          "duration": 8
+        }
+      ],
+      "site": "0x4357c2"
+    },
+    {
+      "key": "BIRD_BROWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "BIRD_BROWN",
+          "frame": 0,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BROWN",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BROWN",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BROWN",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BROWN",
+          "frame": 4,
+          "duration": 6
+        }
+      ],
+      "site": "0x435917"
+    },
+    {
+      "key": "BIRD_YELLOW",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "BIRD_YELLOW",
+          "frame": 0,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_YELLOW",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_YELLOW",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_YELLOW",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_YELLOW",
+          "frame": 4,
+          "duration": 6
+        }
+      ],
+      "site": "0x435a72"
+    },
+    {
+      "key": "BIRD_BLACK",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "BIRD_BLACK",
+          "frame": 0,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BLACK",
+          "frame": 1,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BLACK",
+          "frame": 2,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BLACK",
+          "frame": 3,
+          "duration": 6
+        },
+        {
+          "asset": "BIRD_BLACK",
+          "frame": 4,
+          "duration": 6
+        }
+      ],
+      "site": "0x435bd2"
+    },
+    {
+      "key": "BIRD_ROBOT",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "BIRD_ROBOT",
+          "frame": 0,
+          "duration": 12
+        },
+        {
+          "asset": "BIRD_ROBOT",
+          "frame": 1,
+          "duration": 12
+        },
+        {
+          "asset": "BIRD_ROBOT",
+          "frame": 2,
+          "duration": 12
+        },
+        {
+          "asset": "BIRD_ROBOT",
+          "frame": 1,
+          "duration": 12
+        }
+      ],
+      "site": "0x435d27"
+    },
+    {
+      "key": "MOUSE_ROBOT",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "MOUSE_ROBOT",
+          "frame": 0,
+          "duration": 12
+        },
+        {
+          "asset": "MOUSE_ROBOT",
+          "frame": 1,
+          "duration": 12
+        },
+        {
+          "asset": "MOUSE_ROBOT",
+          "frame": 2,
+          "duration": 12
+        },
+        {
+          "asset": "MOUSE_ROBOT",
+          "frame": 1,
+          "duration": 12
+        }
+      ],
+      "site": "0x435f13"
+    },
+    {
+      "key": "BIG_ROBOT",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "BIG_ROBOT",
+          "frame": 0,
+          "duration": 15
+        },
+        {
+          "asset": "BIG_ROBOT",
+          "frame": 1,
+          "duration": 15
+        },
+        {
+          "asset": "BIG_ROBOT",
+          "frame": 0,
+          "duration": 15
+        },
+        {
+          "asset": "BIG_ROBOT",
+          "frame": 2,
+          "duration": 15
+        }
+      ],
+      "site": "0x4360f7"
+    },
+    {
+      "key": "CANNON_EGYPT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CANNON_EGYPT",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_EGYPT",
+          "frame": 1,
+          "duration": 70
+        },
+        {
+          "asset": "CANNON_EGYPT",
+          "frame": 2,
+          "duration": 50
+        },
+        {
+          "asset": "CANNON_EGYPT",
+          "frame": 1,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_EGYPT",
+          "frame": 0,
+          "duration": 10
+        }
+      ],
+      "site": "0x43638a"
+    },
+    {
+      "key": "CANNON_CASTLE",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CANNON_CASTLE",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_CASTLE",
+          "frame": 1,
+          "duration": 70
+        },
+        {
+          "asset": "CANNON_CASTLE",
+          "frame": 2,
+          "duration": 50
+        },
+        {
+          "asset": "CANNON_CASTLE",
+          "frame": 1,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_CASTLE",
+          "frame": 0,
+          "duration": 10
+        }
+      ],
+      "site": "0x436695"
+    },
+    {
+      "key": "CANNON_PREHISTORY",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CANNON_PREHISTORY",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_PREHISTORY",
+          "frame": 1,
+          "duration": 70
+        },
+        {
+          "asset": "CANNON_PREHISTORY",
+          "frame": 2,
+          "duration": 50
+        },
+        {
+          "asset": "CANNON_PREHISTORY",
+          "frame": 0,
+          "duration": 10
+        }
+      ],
+      "site": "0x4369a0"
+    },
+    {
+      "key": "CANNON_PIRATES",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CANNON_PIRATES",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_PIRATES",
+          "frame": 1,
+          "duration": 70
+        },
+        {
+          "asset": "CANNON_PIRATES",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "CANNON_PIRATES",
+          "frame": 1,
+          "duration": 50
+        },
+        {
+          "asset": "CANNON_PIRATES",
+          "frame": 0,
+          "duration": 10
+        }
+      ],
+      "site": "0x436c34"
+    },
+    {
+      "key": "CANNON_LASER",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CANNON_LASER",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_LASER",
+          "frame": 1,
+          "duration": 70
+        },
+        {
+          "asset": "CANNON_LASER",
+          "frame": 2,
+          "duration": 10
+        },
+        {
+          "asset": "CANNON_LASER",
+          "frame": 1,
+          "duration": 25
+        },
+        {
+          "asset": "CANNON_LASER",
+          "frame": 0,
+          "duration": 10
+        }
+      ],
+      "site": "0x436f43"
+    },
+    {
+      "key": "RAT",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "RAT",
+          "frame": 0,
+          "duration": 10
+        },
+        {
+          "asset": "RAT",
+          "frame": 1,
+          "duration": 10
+        },
+        {
+          "asset": "RAT",
+          "frame": 2,
+          "duration": 10
+        }
+      ],
+      "site": "0x437257"
+    },
+    {
+      "key": "PIRANHA_G_UP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PIRANHA_G",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "PIRANHA_G",
+          "frame": 1,
+          "duration": 7
+        }
+      ],
+      "site": "0x437387"
+    },
+    {
+      "key": "PIRANHA_G_DOWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PIRANHA_G",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "PIRANHA_G",
+          "frame": 3,
+          "duration": 7
+        }
+      ],
+      "site": "0x4374b6"
+    },
+    {
+      "key": "PIRANHA_R_UP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PIRANHA_R",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "PIRANHA_R",
+          "frame": 1,
+          "duration": 7
+        }
+      ],
+      "site": "0x4375e7"
+    },
+    {
+      "key": "PIRANHA_R_DOWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "PIRANHA_R",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "PIRANHA_R",
+          "frame": 3,
+          "duration": 7
+        }
+      ],
+      "site": "0x437716"
+    },
+    {
+      "key": "HEDGEHOG",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "HEDGEHOG",
+          "frame": 0,
+          "duration": 40
+        },
+        {
+          "asset": "HEDGEHOG",
+          "frame": 1,
+          "duration": 5
+        }
+      ],
+      "site": "0x437847"
+    },
+    {
+      "key": "STATIC_SNAKE",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "STATIC_SNAKE",
+          "frame": 0,
+          "duration": 40
+        },
+        {
+          "asset": "STATIC_SNAKE",
+          "frame": 1,
+          "duration": 5
+        }
+      ],
+      "site": "0x43797e"
+    },
+    {
+      "key": "LAVA_OUT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 1,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x437aaf"
+    },
+    {
+      "key": "LAVA_IN",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 7,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "RED_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x437bd6"
+    },
+    {
+      "key": "CAVE_TRAP",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 1,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 1,
+          "duration": 7
+        },
+        {
+          "asset": "CAVE_TRAP",
+          "frame": 0,
+          "duration": 7
+        }
+      ],
+      "site": "0x437d86"
+    },
+    {
+      "key": "FIRE",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE",
+          "frame": 0,
+          "duration": 12
+        },
+        {
+          "asset": "FIRE",
+          "frame": 1,
+          "duration": 12
+        },
+        {
+          "asset": "FIRE",
+          "frame": 2,
+          "duration": 12
+        },
+        {
+          "asset": "FIRE",
+          "frame": 3,
+          "duration": 12
+        }
+      ],
+      "site": "0x437f4a"
+    },
+    {
+      "key": "FIRE_R_UP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_R",
+          "frame": 0,
+          "duration": 7
+        }
+      ],
+      "site": "0x43806d"
+    },
+    {
+      "key": "FIRE_R_DOWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_R",
+          "frame": 1,
+          "duration": 7
+        }
+      ],
+      "site": "0x43817a"
+    },
+    {
+      "key": "FIRE_Y_UP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_Y",
+          "frame": 0,
+          "duration": 7
+        }
+      ],
+      "site": "0x438288"
+    },
+    {
+      "key": "FIRE_Y_DOWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_Y",
+          "frame": 1,
+          "duration": 7
+        }
+      ],
+      "site": "0x438395"
+    },
+    {
+      "key": "FIRE_G_UP",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_G",
+          "frame": 0,
+          "duration": 7
+        }
+      ],
+      "site": "0x43847d"
+    },
+    {
+      "key": "FIRE_G_DOWN",
+      "fps": 60,
+      "loop": true,
+      "frames": [
+        {
+          "asset": "FIRE_G",
+          "frame": 1,
+          "duration": 7
+        }
+      ],
+      "site": "0x43853d"
+    },
+    {
+      "key": "WATER_OUT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 1,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x4385fd"
+    },
+    {
+      "key": "WATER_IN",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 7,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "BLUE_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x4386c7"
+    },
+    {
+      "key": "ACID_OUT",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 0,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 1,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 2,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x4387e4"
+    },
+    {
+      "key": "ACID_IN",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 7,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 3,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 4,
+          "duration": 7
+        },
+        {
+          "asset": "GREEN_SPLATTER",
+          "frame": 5,
+          "duration": 7
+        }
+      ],
+      "site": "0x4388b4"
+    },
+    {
+      "key": "SKATE",
+      "fps": 60,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "SKATE",
+          "frame": 0,
+          "duration": 7
+        }
+      ],
+      "site": "0x4389d4"
+    },
+    {
+      "key": "POWER",
+      "fps": 30,
+      "loop": false,
+      "frames": [
+        {
+          "asset": "POWER",
+          "frame": 0,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 1,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 2,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 3,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 4,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 5,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 6,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 7,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 8,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 9,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 10,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 11,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 12,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 13,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 14,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 15,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 16,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 17,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 18,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 19,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 20,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 21,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 22,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 23,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 24,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 25,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 26,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 27,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 28,
+          "duration": 1
+        },
+        {
+          "asset": "POWER",
+          "frame": 29,
+          "duration": 1
+        }
+      ],
+      "site": "0x438a93"
+    }
+  ]
+}

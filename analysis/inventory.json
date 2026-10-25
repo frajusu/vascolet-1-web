@@ -1,0 +1,562 @@
+[
+  {
+    "path": "assets/audio/fx/cannon.ogg",
+    "bytes": 55536,
+    "sha256": "0ac702ee9e895641b083e16ec1dd50911181addd70983dc60535788da7368650"
+  },
+  {
+    "path": "assets/audio/fx/death_1.ogg",
+    "bytes": 28347,
+    "sha256": "3e9ee1cc0135012820767ce41de3674201655b272c082362f00e59e79d41cfb8"
+  },
+  {
+    "path": "assets/audio/fx/death_2.ogg",
+    "bytes": 38823,
+    "sha256": "e2da5ce8fc3b2dbc8daaca295ccd6017e99bf23d67e44e95dfdf0bd8d3554980"
+  },
+  {
+    "path": "assets/audio/fx/door.ogg",
+    "bytes": 29392,
+    "sha256": "69ebab1ad627e7d21f392bfe72e1307e9e10b8ae7ac91be8582a4068eb3f7423"
+  },
+  {
+    "path": "assets/audio/fx/explosion.ogg",
+    "bytes": 9939,
+    "sha256": "5356c7ef17636a2cfcd407d5df59b1aad1ba6ec28cdc6553298ad4475023ecf2"
+  },
+  {
+    "path": "assets/audio/fx/extra_life.ogg",
+    "bytes": 22378,
+    "sha256": "a62bc4f581a992c4fc5d8c0e2a09f713b5c3f1eedf068702d36c6a881cdb75a8"
+  },
+  {
+    "path": "assets/audio/fx/footstep_1.ogg",
+    "bytes": 7063,
+    "sha256": "d41031239ef303fb3e85c1bf28d354cedda4117024ae407138b495fd898a6eaf"
+  },
+  {
+    "path": "assets/audio/fx/footstep_2.ogg",
+    "bytes": 6859,
+    "sha256": "d537309da01759a06292422439de3a90b8eb71e6ffa0d4061eb35759f9ddb1e6"
+  },
+  {
+    "path": "assets/audio/fx/footstep_dino_1.ogg",
+    "bytes": 8607,
+    "sha256": "071c265ebf11ee1ec0f2e231cb3b24e45d1f90128997515fddeee6d90746ffd0"
+  },
+  {
+    "path": "assets/audio/fx/footstep_dino_2.ogg",
+    "bytes": 9323,
+    "sha256": "9f77006010ca3c346bf431d75d3d66d349ac477a417c016d6a01ccabd7be6b45"
+  },
+  {
+    "path": "assets/audio/fx/guillotine.ogg",
+    "bytes": 25717,
+    "sha256": "457b34e3a09e6215c8cfd71829997c77f573af467107ebcd90d63beaab346abd"
+  },
+  {
+    "path": "assets/audio/fx/item.ogg",
+    "bytes": 18363,
+    "sha256": "2efe0e726dfca4bd5031b13dbf2c32e872cd8a29146537964c64ece829582944"
+  },
+  {
+    "path": "assets/audio/fx/jump.ogg",
+    "bytes": 5917,
+    "sha256": "032a851b8ece87456a5796a93df7199e1f6803fc92125b0c730ab66603de3266"
+  },
+  {
+    "path": "assets/audio/fx/jump_vascolet.ogg",
+    "bytes": 6083,
+    "sha256": "27eed58679c68a86f79dfae4c534c6e1727fc2d68b55fde9e8a8311fd5dba3c7"
+  },
+  {
+    "path": "assets/audio/fx/laser.ogg",
+    "bytes": 8939,
+    "sha256": "eaa3eb00e1bb218c02ad4cd5696d5c91a01f8ca1a8d2509c59be6f9d1f85f625"
+  },
+  {
+    "path": "assets/audio/fx/microwave.ogg",
+    "bytes": 16398,
+    "sha256": "d08c5a3b93b955c7919b7e8b96800ef78e8e9fcf9f11457e436da031049c242f"
+  },
+  {
+    "path": "assets/audio/fx/powerup.ogg",
+    "bytes": 25410,
+    "sha256": "ed33b25390a230515be9f7bbbc2313776e3722e6c70daa0fbdbbfa29d0b1ba02"
+  },
+  {
+    "path": "assets/audio/fx/skate.ogg",
+    "bytes": 8808,
+    "sha256": "c6a6679a405c9464424e51391bafe1bf700962d95bcf1c2884b49a525414ba0f"
+  },
+  {
+    "path": "assets/audio/fx/stair_1.ogg",
+    "bytes": 7525,
+    "sha256": "6304d62bc0eb2c17d5de3b5f7d34506ee74b9ac19d9ccdbab2e3b594d2259fcc"
+  },
+  {
+    "path": "assets/audio/fx/stair_2.ogg",
+    "bytes": 7610,
+    "sha256": "5dc4d092051876a568a043d13cb306838751673252ace90230ad95a638fc3108"
+  },
+  {
+    "path": "assets/audio/fx/statue_shot.ogg",
+    "bytes": 6350,
+    "sha256": "6bbf582939a94facdbb572eee2dd57b94da88b75f274e498b06dca4a29ebd14d"
+  },
+  {
+    "path": "assets/audio/music/andy.ogg",
+    "bytes": 2060106,
+    "sha256": "4ba6bc6403144043cd4cb2085418fa0c2627c3d2e3eaa65384526a28d80418a8"
+  },
+  {
+    "path": "assets/audio/music/castillo.ogg",
+    "bytes": 1278872,
+    "sha256": "5ffe2b75dd66217dfc12f8f222798928ac55223e8b64ec5b423b2d8c61f428ec"
+  },
+  {
+    "path": "assets/audio/music/futuro.ogg",
+    "bytes": 2205851,
+    "sha256": "4745a5362aed3e55196de5e8e2448b7ab544d3f67ed79095246770fea0f5b0d9"
+  },
+  {
+    "path": "assets/audio/music/piratas.ogg",
+    "bytes": 1513606,
+    "sha256": "fde4b8fac5995d73eae88257d3e245f331c0755dc8ee8f97993dc34002e00144"
+  },
+  {
+    "path": "assets/audio/music/prehistoria.ogg",
+    "bytes": 1387076,
+    "sha256": "839e9de88095c2edee4fcb838598fafe97593f8c577206bf6f2ed79c43a0ab43"
+  },
+  {
+    "path": "assets/data/castle.tmx",
+    "bytes": 657826,
+    "sha256": "8f97688b3e6773c6ed483a35eac0aa306795ff39ee368edc2427360c2329d579"
+  },
+  {
+    "path": "assets/data/egypt.tmx",
+    "bytes": 715810,
+    "sha256": "230eb0d25291fd1f03452f4de7bc2f6b735c99a88f5a5fc79d9e4c4d54027bff"
+  },
+  {
+    "path": "assets/data/future.tmx",
+    "bytes": 632691,
+    "sha256": "246abc2809d5b5dbace5a65ff4dfa73953c22655524f6a5fce0285d9ccad7d35"
+  },
+  {
+    "path": "assets/data/pirates.tmx",
+    "bytes": 679054,
+    "sha256": "a6ccedd690cdb8ad0f61a3d04aa8ba92a26e77e29fe585cf0e49cb4fe831823d"
+  },
+  {
+    "path": "assets/data/prehistory.tmx",
+    "bytes": 785728,
+    "sha256": "f5c5183c19915b0a06012e78917a7e6caec6b833186b493ee350158c4789229a"
+  },
+  {
+    "path": "assets/images/elements/signs_tile.png",
+    "bytes": 29322,
+    "sha256": "4fc617e9074aa6477e3d92659dbfdd9bd243a2f5d1c984f875f9f1ce54a94936",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "path": "assets/images/elements/tile_gates.png",
+    "bytes": 269154,
+    "sha256": "4752cbbbf6acd31ab80823286607845422aca2707ca0a469f3391e7850a97349",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/elements/tile_platforms.png",
+    "bytes": 140989,
+    "sha256": "a176746daabc922dc8ddbcc54f0ef3ef7db98929188006ac12a887bbf1da110f",
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "path": "assets/images/enemies/anim_lava_tile.png",
+    "bytes": 99939,
+    "sha256": "43ff3db7c3f65c9cb3f2ed5ee244f383e5529ad4ac4d8853eb5fae444b1d948d",
+    "size": [
+      1024,
+      512
+    ]
+  },
+  {
+    "path": "assets/images/enemies/coinEffect.png",
+    "bytes": 240554,
+    "sha256": "a7ef51e1d49ff33ccb13565c6dbf978c81043c45c1c5b5627850c2b08104c806",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/enemies/enemies_tile.png",
+    "bytes": 818151,
+    "sha256": "2ad7703b40c7f87e16dd6224c662ec8bcb4d880e7d0c88662fe507236bbcc18d",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/enemies/enemies_tile_2.png",
+    "bytes": 701066,
+    "sha256": "d4d5db1173468bc2958ad032d8170e149bb6aeeb3bdbd0ba604645d9d0650466",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/enemies/pixel.png",
+    "bytes": 220,
+    "sha256": "60dc5a32672ac6ffc0538c7e2f6de9273fd37958968828b81e379a89b76a545a",
+    "size": [
+      32,
+      32
+    ]
+  },
+  {
+    "path": "assets/images/menuElements/back_hud.png",
+    "bytes": 2739,
+    "sha256": "286ab7966bd805ead491f0a36118aa4f342d8d89b27d75576a7c0f346622bacf",
+    "size": [
+      1024,
+      256
+    ]
+  },
+  {
+    "path": "assets/images/menuElements/buttons_tile.png",
+    "bytes": 53014,
+    "sha256": "a87b238ce2df97951cfcd3d38093a62e3e4c21264aafee1cacf9719ad1ffbe39",
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "path": "assets/images/menuElements/items.png",
+    "bytes": 68595,
+    "sha256": "0730468af52c2bd46904e39f3122409fc2e6de12560c90da389b9362c95e75bf",
+    "size": [
+      1024,
+      128
+    ]
+  },
+  {
+    "path": "assets/images/menuElements/menu.jpg",
+    "bytes": 278944,
+    "sha256": "ee665c6354fa142e2c80c694960dd03834e1704f350e88871c3f2baa110a95c9",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/menuElements/opciones_tile.png",
+    "bytes": 199440,
+    "sha256": "ba36a156f083d4e4f27a5ccea3214a17ed084cbdc50cb894a5a76099279df1d4",
+    "size": [
+      512,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/tiles/tileset_castle.png",
+    "bytes": 1221795,
+    "sha256": "9ce09f06a6c0156cec981a2a80c3127b2e5739cbc5aa60c697c3b579dd46c4e5",
+    "size": [
+      1024,
+      2048
+    ]
+  },
+  {
+    "path": "assets/images/tiles/tileset_egypt.png",
+    "bytes": 1698640,
+    "sha256": "3ff54bc504916c95061efa93c02c4baf08a69f855d0b16cc906467f3831ade40",
+    "size": [
+      1024,
+      2048
+    ]
+  },
+  {
+    "path": "assets/images/tiles/tileset_future.png",
+    "bytes": 998710,
+    "sha256": "64f624d0dcf890be84a5653c3cc2d5b952ddef2935dd726c57394cc0a7e703ac",
+    "size": [
+      1024,
+      2048
+    ]
+  },
+  {
+    "path": "assets/images/tiles/tileset_pirates.png",
+    "bytes": 1178694,
+    "sha256": "9fdc3b81cd6e64d2fc15bac43d97f384b1970aca1a69e386f680689c12562396",
+    "size": [
+      1024,
+      2048
+    ]
+  },
+  {
+    "path": "assets/images/tiles/tileset_prehistory.png",
+    "bytes": 1010272,
+    "sha256": "71bc40c19c8550162b7b95b8ade52c569dae25746b2900baf009f64941ff26d5",
+    "size": [
+      1024,
+      2048
+    ]
+  },
+  {
+    "path": "assets/images/vascolet/frames_AV_tile.png",
+    "bytes": 373216,
+    "sha256": "27231a797cdfed627ff9af85b70de79195330fa0d463f5621e83bf88c779c073",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/vascolet/frames_AVD_tile.png",
+    "bytes": 709533,
+    "sha256": "5f873a25d3ade4f99e22edbe6df0e424e273bd52aed8c64598faaa2d49aad245",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/images/vascolet/frames_AVP_tile.png",
+    "bytes": 49876,
+    "sha256": "783212bb3830bdeec319d522ba6b5360fdabf49555f46d1671fa08a4f4622770",
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "path": "assets/lang/images/credits/creditos.jpg",
+    "bytes": 268869,
+    "sha256": "1c91474188bf2b995be18fee368e55e468d3c2902611b5e79aa5a01e76a5fd4d",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/help/ayuda.jpg",
+    "bytes": 343072,
+    "sha256": "1f06b127df423ec50441368d0e81c71c659a3e0e53b16ba3f31aa0d09c345b41",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/fin.jpg",
+    "bytes": 455743,
+    "sha256": "35335ebb2cf80447a15dd85a36ab1a3bebae3ad7f850198c6c5e3936038872be",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro.jpg",
+    "bytes": 419965,
+    "sha256": "6f7f6056ca1192df524036826be711b46fca0004a6e02eb35df1667f3fc9407b",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_castillo.jpg",
+    "bytes": 362452,
+    "sha256": "a3fa59a3df724ccec0beacb1212b63eeb7ab992aef31637c330f65028b7a40a8",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_egipto.jpg",
+    "bytes": 338059,
+    "sha256": "f9f732d7af31276b9bb60a00c0d74389d745589af6cdd70b0d5135ce0f60f758",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_futuro.jpg",
+    "bytes": 370406,
+    "sha256": "f442c1012e54f68d2a1eb2618dc0ab0ad589e5d747f9fa78b9759e93c6aa7797",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_page1.jpg",
+    "bytes": 229337,
+    "sha256": "3d16b0195a32b64febb194e5e54517fb47ca2ad6820b16aa732b009d1968c83f",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_page2.jpg",
+    "bytes": 245974,
+    "sha256": "dd7cbc5cf0c5403b8a827d396d14d550406f1173792ead5d65ebbddfd051d054",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_page3.jpg",
+    "bytes": 220840,
+    "sha256": "c0a653828abf9cb7526ffee160e225b9a49c3336636f04af04fd872f835cfb21",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_page4.jpg",
+    "bytes": 194525,
+    "sha256": "c0c314bca0c9c8515550f1b4b9c3c3664a91c8476afdfa2638a676a27d0363bf",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_pirata.jpg",
+    "bytes": 355402,
+    "sha256": "e98e25c28c553352f7602377f98009aad5db00d611cbada8de82d971f9103851",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/intro_prehistoria.jpg",
+    "bytes": 342969,
+    "sha256": "7568aaf3447b7028014b6a478ba0171289821a3a9a1c9ccbc1fddc24e72fcbb6",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/intros/perdiste.jpg",
+    "bytes": 148474,
+    "sha256": "5ec0ff9847f1c407eadf07403d8871ff3b50cdc9c05d0b29358a5ce3feb8bc79",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/menu/banner.png",
+    "bytes": 178780,
+    "sha256": "6d802a4a22c21b63bac0685ccb53b325451fa347446d38c32b10ef596ac1c5aa",
+    "size": [
+      512,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/menu/press_any_key.png",
+    "bytes": 10989,
+    "sha256": "27b2674ce5b2d063829244d3229e37e4b633fa7e21fe6e9d727ba0c639aeba38",
+    "size": [
+      1024,
+      128
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/boton_castillo.png",
+    "bytes": 175388,
+    "sha256": "51d36deb12791c0cabf036f95fc7cdbf4b1b9a936b2b67dea265efb33bf8f1f2",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/boton_egipto.png",
+    "bytes": 194912,
+    "sha256": "32631163d92161e4bf1c7182d7c36974fbbc80779a5998f8cf0e735e3cf1860e",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/boton_futuro.png",
+    "bytes": 344978,
+    "sha256": "3ebaac30f6e6f8471f6c1758f5c61d5ada5a596c86508adda73991d6698227a9",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/boton_piratas.png",
+    "bytes": 234624,
+    "sha256": "f0fb112d45c66a0b041f2e727e5da3029a4d71ac646b14fbcc12063c349ba437",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/boton_prehistoria.png",
+    "bytes": 212149,
+    "sha256": "77c8f5d73775feb067b682f051766f98905b2f0807f3d4a76ebab465138fb90b",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/seleccionar_nivel/fondo_seleccionar_nivel.jpg",
+    "bytes": 218298,
+    "sha256": "a7443814e1f6a8e7963ab1c3200da8be7b4ed64d91b6399f9cec935125512706",
+    "size": [
+      2048,
+      1024
+    ]
+  },
+  {
+    "path": "assets/lang/images/white_font_new.png",
+    "bytes": 22407,
+    "sha256": "c28bb20be24da8bdd9b0ddbb5cea15d597e17257ded8165fe58d630ed483f01b",
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "path": "assets/lang/images/white_font_new_outline.png",
+    "bytes": 16148,
+    "sha256": "598e304f143393b3bc22e24c4643b0e39124dcbc0636f5f6da6ec7e77afbc5a6",
+    "size": [
+      512,
+      512
+    ]
+  }
+]

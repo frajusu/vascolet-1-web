@@ -1,0 +1,9 @@
+node_modules/
+_site/
+analysis/*.jpg
+analysis/*.png
+analysis/native/
+test-results/
+*.log
+*.pyc
+__pycache__/
