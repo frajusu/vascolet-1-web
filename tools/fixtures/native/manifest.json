@@ -1,0 +1,66 @@
+{
+  "binarySha256": "7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71",
+  "source": "Original Windows backbuffer captures; see docs/reverse-engineering.md",
+  "captures": [
+    {
+      "path": "boot/boot-2s.png",
+      "sha256": "5b49858c37bf396b2b068c1cbafdd3887389bf21ba2b6d3a5463091795e69d6f",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "menus/options.png",
+      "sha256": "e7ca1f3d613daf961441065877d38d1ba88e59fd5bb023281e597393e863b0a5",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "catalog/help.png",
+      "sha256": "9cb7f5c76525e97dd0748bb9f536d01cf139f8c4028ca7d3c02fbde2d7cd3ade",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "catalog/credits.png",
+      "sha256": "98d0122f4b6f0e7b2c075882727216b76a6ac89e0f7558b9fec8765956fe08d3",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "game/prehistory-start.png",
+      "sha256": "9f27e54552f0123c8feee2a574b3456cea03258385386870f5740669b36646a6",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "egypt/egypt-start.png",
+      "sha256": "281605c5b344ecdb521af3a7373f8cb1fb2a03bce14c607e0fb5b6a70654c756",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "castle/castle-start.png",
+      "sha256": "e89ec8e892339f3feac3b91a3dbe77ef6341fc93da4c30e5855b13f7cf001c59",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "pirates/pirates-start.png",
+      "sha256": "bebe8d77cfd3449d0652b99054be36bbdf94f4fd34bd65882dbf656316817c4c",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "future/future-start.png",
+      "sha256": "ac0bc9906ea59da05c9a90df6755cd7b6b7aa3e9d9fc1d8e49d0457a01efe978",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "path": "selection-skins/select-5.png",
+      "sha256": "a73dd18b2f79ac73ad5dd72fc1d3aee1cfd7ddb402fb704b22b0235a1ce1c165",
+      "width": 800,
+      "height": 600
+    }
+  ]
+}

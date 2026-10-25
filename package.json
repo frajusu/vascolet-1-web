@@ -10,7 +10,8 @@
     "test": "node --test tools/core.test.mjs",
     "test:browser": "node tools/browser-game.mjs",
     "compare:native": "node tools/compare-native.mjs",
-    "compare:scenes": "node tools/compare-scenes.mjs"
+    "compare:scenes": "node tools/compare-scenes.mjs",
+    "fixtures:native": "node tools/prepare-native-fixtures.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

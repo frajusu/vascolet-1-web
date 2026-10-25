@@ -38,7 +38,7 @@ Resultados: `analysis/scene-comparison.json` y resumen `analysis/native-validati
 
 ### `npm test`
 
-Diez grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, suelo/techo/plataformas/puertas, correspondencia de cada objeto nativo, integración y bordes de ventana, fuente/atlas UI y estados rasterizados, además de textos y guardados.
+Once grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, suelo/techo/plataformas/puertas, correspondencia de cada objeto nativo, integración y bordes de ventana, fuente/atlas UI y estados rasterizados, además de textos y guardados. También verifican que las diez capturas PNG requeridas por CI existan en el repositorio y conserven sus hashes.
 
 ### `npm run test:browser -- --built`
 
@@ -52,6 +52,8 @@ Diez grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, su
 - Sin errores JavaScript ni respuestas HTTP fallidas durante la prueba.
 
 Los casos de objetos, puertas, peligros y salida son **fixtures controlados**, no una campaña recorrida por un bot. La interfaz de fixtures solo existe con `?test=1`.
+
+Las referencias visuales de CI están versionadas en `tools/fixtures/native/`, con procedencia y hashes en su `manifest.json`. Las pruebas normales no dependen de `analysis/native-reference/`, que es un laboratorio local ignorado. `npm run fixtures:native` actualiza las baselines desde capturas originales deliberadamente renovadas; no se ejecuta en CI.
 
 ## Límites que siguen abiertos
 

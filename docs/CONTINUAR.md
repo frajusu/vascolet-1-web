@@ -82,4 +82,6 @@ npm run compare:scenes
 python tools/build-evidence.py
 ```
 
-Las regresiones visuales de CI usan PNG originales incluidos como baseline. El score de 434 salas excluye elementos dinámicos/HUD/texto y **no debe presentarse como prueba de toda la física o IA**.
+Las regresiones visuales de CI usan los diez PNG versionados de `tools/fixtures/native/`, no el laboratorio ignorado. El manifiesto registra sus hashes y las pruebas unitarias comprueban su disponibilidad antes de lanzar el navegador. Para renovar esas referencias desde capturas nuevas: `npm run fixtures:native` y revisar los cambios antes de comitearlas.
+
+El score de 434 salas excluye elementos dinámicos/HUD/texto y **no debe presentarse como prueba de toda la física o IA**.

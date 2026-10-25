@@ -71,6 +71,15 @@ test('observed UI atlases, original font and raster selector states are intact',
   const ui=await json('assets/data/ui-atlas.json'),font=await json('assets/data/font.json'),skins=await json('assets/data/native-skins.json');assert.equal(ui.MENU_BUTTON.length,4);assert.equal(ui.OPTIONS.length,6);assert.equal(Object.keys(font.glyphs).length,137);assert.equal(font.glyphs.J.advance,12);assert.equal(skins.states.length,9);
   for(const s of skins.states)assert.equal(createHash('sha256').update(await readFile(new URL(s.path,root))).digest('hex'),s.sha256);
 });
+test('CI native PNG baselines are present, valid and match their recorded hashes',async()=>{
+  const manifest=await json('tools/fixtures/native/manifest.json');assert.equal(manifest.captures.length,10);
+  for(const capture of manifest.captures){
+    const data=await readFile(new URL('tools/fixtures/native/'+capture.path,root));
+    assert.deepEqual([...data.subarray(0,8)],[137,80,78,71,13,10,26,10],capture.path);
+    assert.equal(data.readUInt32BE(16),800,capture.path);assert.equal(data.readUInt32BE(20),600,capture.path);
+    assert.equal(createHash('sha256').update(data).digest('hex'),capture.sha256,capture.path);
+  }
+});
 test('original Spanish escapes and corrupt save data are handled',()=>{
   assert.equal(originalText('\\!Energ\\ia!\\nBa\\mo'), '¡Energía!\nBaño');
   assert.equal(sanitizeSave({version:1,run:{level:0,lives:10,score:10,checkpoint:{x:NaN,y:0}}}).run,null);

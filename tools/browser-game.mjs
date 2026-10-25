@@ -13,7 +13,7 @@ const url=await new Promise((resolve,reject)=>{child.once('error',reject);child.
 const report={ok:false,scope:'Actual keyboard/UI checks and controlled gameplay fixtures; native PNG visual regressions. Not a natural full-campaign completion or a proof of exact enemy AI.',steps:[],errors:[],nativeComparisons:[]};let browser;
 async function step(name,fn){await fn();report.steps.push(name);console.log('PASS',name);}
 async function reference(page,name,file,limit,rectangle=null){
-  const base64=(await readFile(path.join(root,'analysis/native-reference',file))).toString('base64');
+  const base64=(await readFile(path.join(root,'tools/fixtures/native',file))).toString('base64');
   const result=await page.evaluate(async({base64,rectangle})=>{
     const im=new Image();im.src='data:image/png;base64,'+base64;await im.decode();const c=new OffscreenCanvas(800,600),ctx=c.getContext('2d');ctx.drawImage(im,0,0);
     const rect=rectangle??{x:0,y:0,w:800,h:600};const a=ctx.getImageData(rect.x,rect.y,rect.w,rect.h).data,b=document.querySelector('#game').getContext('2d').getImageData(rect.x,rect.y,rect.w,rect.h).data;let sum=0;
