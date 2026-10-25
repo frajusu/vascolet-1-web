@@ -1,0 +1,12 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"unlock","levels":5},
+  {"action":"click","x":700,"y":85,"after":1},
+  {"action":"click","x":250,"y":300,"after":1},
+  {"action":"capture","name":"egypt-intro"},
+  {"action":"press","key":28,"after":3},
+  {"action":"capture","name":"egypt-start"},
+  {"action":"actors","name":"egypt-actors"},
+  {"action":"pointer","address":"0x510580","offset":528,"size":128},
+  {"action":"pointer","address":"0x5105a8","offset":96,"size":28}
+]

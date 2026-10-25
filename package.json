@@ -1,6 +1,6 @@
 {
   "name": "vascolet-1-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Port web no oficial de Vascolet: La máquina del tiempo, basado en sus mapas y recursos originales.",
@@ -8,7 +8,9 @@
     "serve": "node tools/serve.mjs",
     "build": "node tools/build-site.mjs",
     "test": "node --test tools/core.test.mjs",
-    "test:browser": "node tools/browser-game.mjs"
+    "test:browser": "node tools/browser-game.mjs",
+    "compare:native": "node tools/compare-native.mjs",
+    "compare:scenes": "node tools/compare-scenes.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

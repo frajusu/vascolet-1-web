@@ -1,0 +1,19 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"click","x":700,"y":85,"after":0.3},
+  {"action":"press","key":28,"after":0.6},
+  {"action":"press","key":28,"after":0.6},
+  {"action":"press","key":28,"after":0.6},
+  {"action":"press","key":28,"after":0.6},
+  {"action":"press","key":28,"after":2},
+  {"action":"capture","name":"prehistory-entry"},
+  {"action":"room","column":2,"row":3,"x":400,"y":700,"after":0.2},
+  {"action":"capture","name":"prehistory-room2"},
+  {"action":"actors","name":"prehistory-actors"},
+  {"action":"collectExit","after":1},
+  {"action":"capture","name":"prehistory-exit"},
+  {"action":"wait","seconds":10},
+  {"action":"capture","name":"exit-after10"},
+  {"action":"press","key":28,"after":2},
+  {"action":"capture","name":"after-exit-enter"}
+]

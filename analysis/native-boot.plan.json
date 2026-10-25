@@ -1,0 +1,8 @@
+[
+  {"action":"wait","seconds":2},
+  {"action":"capture","name":"boot-2s"},
+  {"action":"wait","seconds":6},
+  {"action":"capture","name":"boot-8s"},
+  {"action":"press","key":28,"after":1},
+  {"action":"capture","name":"after-enter"}
+]

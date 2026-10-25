@@ -1,0 +1,9 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"catalog","address":"0x510130","name":"ui-atlas"},
+  {"action":"click","x":700,"y":192,"after":0.5},
+  {"action":"capture","name":"help"},
+  {"action":"press","key":28,"after":0.4},
+  {"action":"click","x":700,"y":245,"after":0.5},
+  {"action":"capture","name":"credits"}
+]

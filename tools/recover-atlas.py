@@ -13,7 +13,7 @@ from unicorn.x86_const import *
 
 ROOT=Path(__file__).resolve().parents[1]
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--exe',type=Path,default=ROOT.parent/'vascolet1-analisis/extraido/Vascolet.exe')
+    ap=argparse.ArgumentParser(); ap.add_argument('--exe',type=Path,default=ROOT.parent/'Vascolet1/Vascolet.exe')
     ap.add_argument('--index',type=Path,default=ROOT.parent/'vascolet1-analisis/descompilado/funciones.tsv')
     a=ap.parse_args(); pe=pefile.PE(str(a.exe)); base=pe.OPTIONAL_HEADER.ImageBase
     digest=hashlib.sha256(a.exe.read_bytes()).hexdigest()
@@ -24,6 +24,7 @@ def main():
     constants={
         'binarySha256':digest,
         'gravity':{'address':'0050a7c0','value':f32(0x50a7c0)},
+        'maxSpeed':{'address':'004ea3c8','value':f32(0x4ea3c8)},
         'speed':{'address':'0050a7c4','value':f32(0x50a7c4)},
         'climb':{'address':'0050a820','value':f32(0x50a820)},
         'width':{'address':'004eef3c','value':f32(0x4eef3c)},

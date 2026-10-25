@@ -1,105 +1,128 @@
-# Método de recuperación
+# Observación y reconstrucción del original
 
-## Referencia de trabajo
+## Copia de referencia
 
-Se consultaron el README, los módulos de lectura TMX, el juego, las herramientas `re_exe.py`, el build y las pruebas de navegador de `vascolet-web` (Vascolet 4). La idea reutilizada es: **cargar datos reales, recuperar los detalles que faltan del binario, implementar las reglas en JavaScript y verificar los resultados**. El proyecto de Vascolet 4 se usó como referencia de lectura.
+Se utilizó `../Vascolet1/Vascolet.exe`, con sus recursos instalados. Su SHA-256 es:
 
-Vascolet 1 es C++ nativo x86, con RTTI de MSVC, Boost y clases del motor `bat`. A diferencia de Vascolet 4, los atlas y las animaciones principales están definidos en código, no en XML independientes. El enlace PE declara versión 9.0; eso no identifica por sí solo la versión exacta del compilador.
+```text
+7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71
+```
 
-## Copia examinada
+Coincide con el ejecutable extraído del instalador NSIS examinado inicialmente. Los 76 recursos originales importados también coinciden por hash (`analysis/inventory.json`). El port no necesita el EXE para funcionar.
 
-| Archivo | Tamaño | SHA-256 |
-|---|---:|---|
-| Instalador `Vascolet 1 La maquina del tiempo.exe` | 25.798.660 | `91f075da1bcf7065eaf6380a6bbe19051c65857c3c0742673a6de5410d9a444f` |
-| Juego extraído `Vascolet.exe` | 1.229.824 | `7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71` |
+## Ejecutar y mirar, antes de interpretar
 
-El primero es NSIS 2. Se extrajo con 7-Zip, sin instalarlo. El paquete contiene 82 archivos; 76 son recursos que se importan para el port. `analysis/inventory.json` contiene sus rutas, tamaños y hashes. Las pruebas comparan esos hashes con los archivos publicados.
+`tools/native-observe.py` prepara una copia en `%LOCALAPPDATA%/Temp/opencode/vascolet1-native-reference` y la ejecuta en un escritorio Win32 no seleccionado. Captura el backbuffer Direct3D y suministra teclado/mouse privados. El escritorio visible y sus entradas no se utilizan.
 
-## Mapas originales
+El laboratorio de IO se toma, **en lectura**, de `../vascolet-web/tools/native-isolated/`. Se compila una adaptación temporal para Vascolet 1:
 
-Los TMX contienen capas base64 de enteros little-endian de 32 bits, sin compresión, tiles de 76 × 76 y un tileset embebido. Se lee la primera capa distinta de `REF`; `REF` es una referencia del editor.
+- Mouse por mensajes despachados en el propio hilo/escritorio del juego.
+- Semántica privada correcta de `ShowCursor(FALSE)`; el motor de Vascolet 1 espera un resultado negativo.
+- Captura ampliada a 16 MiB y tratamiento de ASLR para lecturas de memoria.
+- Perfil de guardado temporal y cierre del proceso mediante Job Object.
 
-| Mapa | Tiles | Enemigos/peligros | Objetos recogibles |
-|---|---:|---:|---:|
-| Prehistoria | 576 × 96 | 225 | 132 |
-| Egipto | 240 × 204 | 202 | 153 |
-| Piratas | 256 × 204 | 92 | 128 |
-| Castillo | 224 × 204 | 169 | 148 |
-| Futuro | 256 × 204 | 36 | 127 |
+El EXE copiado conserva su hash. Para la inspección sistemática se modifican **solamente estados del proceso temporal**: progreso desbloqueado para usar su selector real, activación de una habitación con el código original y colocación del jugador. El barrido habilita el flag de no-daño para que una colocación de laboratorio no interrumpa la captura. Los informes identifican esas situaciones como fixtures.
 
-También hay 58 plataformas móviles, 61 puertas, 59 puntos de salvado, 84 carteles y seis registros de posición del jugador. Egipto tiene dos registros; el port usa el último en orden de documento, situado junto a la bienvenida de la entrada. Esto sigue siendo una interpretación del cargador que debe contrastarse con ejecución nativa.
+## Las 434 salas
 
-`00428bd0` permite distinguir la precedencia de tipos de tile: `pHard`, `pLadder`, `pLadderEnd`, `pPlatform`, `pKilling`. No son cinco flags de colisión simultáneos: el último tipo aplicable sustituye al anterior. El error ortográfico `pPlaftorm` se conserva en el mapa, pero no se interpreta como `pPlatform`.
+`tools/survey-original.py` entra a cada época por la interfaz del original. Reconoce las ilustraciones comparándolas con sus recursos y avanza hasta el juego. Después activa y captura cada habitación que tiene tiles distintos del relleno del mapa.
 
-Las propiedades `pxVel`, `pyVel`, `pxDest`, `pyDest`, `pxDelta`, `pyDelta`, `pDuration`, `pWait`, `pMinTime`, `pMaxTime`, `pRequiredItem` y las demás propiedades permanecen accesibles al runtime. `analysis/maps.json` es el catálogo legible de entidades. Los textos convierten escapes originales como `\a`, `\m` y `\n` a español y saltos de línea.
+| Época | Salas originales capturadas |
+|---|---:|
+| Prehistoria | 71 |
+| Egipto | 83 |
+| Castillo | 72 |
+| Piratas | 132 |
+| Futuro | 76 |
+| **Total** | **434** |
 
-## Atlas y animaciones dentro del ejecutable
+En las 434 capturas se comprobó que la habitación activa del original coincidiera con la solicitada. Las imágenes completas del barrido quedan localmente en `analysis/native-reference/world/<época>/rooms/`; los índices e informes documentan la cobertura.
 
-Se analizó el juego con Ghidra 11.2.1 y se exportaron funciones del intervalo principal del juego para orientar la recuperación. `tools/ExportVascoletGame.java` repite esa exportación sobre un proyecto de Ghidra ya importado. La salida es pseudocódigo de análisis, no el fuente original ni un proyecto recompilable.
+No se trata de un bot que haya recorrido naturalmente la campaña: la colocación de laboratorio está declarada.
 
-Después, `tools/recover-atlas.py` carga el PE en **Unicorn x86** y recorre únicamente seis constructores conocidos. **Cada llamada se intercepta**: se modelan operaciones de cadenas, registro de recursos y fotogramas. No se invoca Windows, Direct3D, OpenAL ni el bucle del juego.
+## Posición y cajas reales de los objetos
 
-| Entrada | Información recuperada |
+El TMX describe 1.680 objetos, seis de ellos registros del jugador. El cargador nativo transforma las coordenadas y usa plantillas de cajas físicas por entidad; interpretar literalmente ancho/alto del TMX o derivar la caja del tamaño del sprite daba resultados incorrectos.
+
+Se recorrieron las listas de `InteractiveObject` del juego en memoria y se vinculó su orden con los objetos del XML, excluyendo `Vascolet`:
+
+- Caja base local, dimensiones y habitación propietaria.
+- Posición de presentación y vtable de la clase nativa.
+- Correspondencia de cada `Item` con su clave original.
+
+`assets/data/native-objects.json` contiene las **1.674 correspondencias**, sin direcciones de heap transitorias. `js/game.js` carga esas cajas y posiciones; no sustituye los mapas ni inventa rectángulos. Egipto usa el último registro del jugador del XML, confirmado por la entrada observada.
+
+Las entidades se muestran y actualizan en su habitación propietaria. La activación reinicia posiciones/temporizadores pertinentes; `pIsKey` conserva los estados persistentes.
+
+## Interfaz observada
+
+El mapa de recursos `AssetsGeneral` se leyó del proceso. `assets/data/ui-atlas.json` contiene sus 11 grupos: botones, opciones, pausa, fondos y componentes del HUD, con recortes y pivotes reales.
+
+La tabla de 137 caracteres procede de `00443070` y sus avances se calculan ejecutando en Unicorn la función `00442e50`. `assets/data/font.json` permite dibujar el texto con la fuente original, sin sustituirla por una fuente de navegador.
+
+Se observaron menú, opciones, ayuda, créditos, ilustraciones, selector, HUD, pausa, confirmación, muerte y reaparición. El selector conserva sus estados rasterizados del original en `assets/gui/native/`: estados desbloqueados y fondos de hover. Se hornean con `tools/build-native-skins.py` para conservar exactamente la composición, escala y filtrado del original. Los puntos se actualizan sobre esa base; las zonas de interacción no son decoración HTML visible.
+
+Los JPG originales contienen imagen de **1200 × 900** y padding hasta 2048 × 1024. El recorte anterior de 1172 × 879 era incorrecto.
+
+## Atlas y animaciones del mundo
+
+`tools/recover-atlas.py` emula únicamente constructores de recursos del PE, interceptando sus llamadas. No invoca Windows ni el bucle del juego:
+
+| Dirección | Datos |
 |---|---|
-| `0042cd10` | 9 descriptores del jugador |
-| `00438be0` | 55 descriptores de enemigos y efectos |
-| `00418100` | 9 descriptores de objetos |
-| `00419b20` | 36 descriptores de elementos, puertas y carteles |
-| `0042b3c0` | 13 animaciones del jugador |
-| `00434760` | 44 animaciones de enemigos y efectos |
+| `0042cd10` | Descriptores del jugador |
+| `00438be0` | Enemigos y efectos |
+| `00418100` | Objetos |
+| `00419b20` | Elementos, carteles y puertas |
+| `0042b3c0` | Animaciones del jugador |
+| `00434760` | Animaciones de enemigos/efectos |
 
-Intercepciones relevantes:
+Resultado: 109 registros de descriptor, con **104 entradas utilizables**, y **57 animaciones / 259 entradas de fotograma**. Las pruebas verifican que cada índice cabe en la textura correspondiente. Los JSON conservan direcciones de procedencia.
 
-- `004033f0`: `ImageMapDesc`, fuente de imagen, rectángulo/grilla y pivote.
-- `0042c7a0`: definición de animación y frecuencia.
-- `004594c0`: incorporación de una entrada de fotograma y su duración.
-- `0042d6a0` / `0041e390`: referencia a un fotograma de un atlas.
-- Operaciones de cadenas de MSVC: se reconstruyen los nombres en vez de adivinar la identidad de cada dibujo.
+## Movimiento y presentación
 
-Los 109 descriptores incluyen registros auxiliares `PIXEL` y un fondo de menú. El manifiesto utilizable tiene **104 entradas**. Se recuperaron **57 animaciones y 259 entradas de fotograma**. Las pruebas validan que sus regiones y cada índice caben en las texturas originales.
+Evidencias en `analysis/native-constants.json` y funciones consultadas:
 
-Archivos resultantes:
+- Gravedad 1800 (`0050a7c0`), marcha 250 (`0050a7c4`), escalera 150 (`0050a820`).
+- Caja del jugador 50 × 90 (`004eef3c`, `004eef38`).
+- Salto: 600, 700, 790, 810, 850; doble salto: 0, 640, 680, 720, 760.
+- Límite de magnitud de velocidad 1500 (`004ea3c8`).
+- Integración analítica `v·dt + a·dt²/2`, seguida por velocidad (`00447290`).
+- Separación de contacto de 0,49; ventana de 1200 × 900 dentro de habitaciones de 16 × 12 tiles.
+- Cruce por bordes y activación de habitación (`00432320`, `004279d0`); no se usa una cámara suave inventada.
+- Precedencia de tipo de tile (`00428bd0`): duro, escalera, fin de escalera, plataforma, letal.
+- Muerte observada: espera de un segundo, impulso -800, caída con gravedad y reaparición tras salir por debajo de la ventana +500 (`004333f0`, `00432a30`). La vida se descuenta al reaparecer.
 
-- `assets/data/atlas.json`: rectángulos, grillas, pivotes y direcciones de registro.
-- `assets/data/animations.json`: secuencias, frecuencias, duraciones y direcciones.
-- `analysis/atlas-evidence.json`: registros crudos de los descriptores.
-- `analysis/animation-evidence.json`: catálogo de secuencias recuperadas.
+Se confirmó visualmente `D_` en Prehistoria y `P_` en Futuro. La fuente, geometría y recortes son datos recuperados; esto no certifica automáticamente todos los estados de IA y contactos.
 
-Es una recuperación específica de esta compilación: el script comprueba su SHA-256 antes de usar direcciones fijas. Emular los constructores no demuestra por sí solo que toda interpretación del renderer o de los eventos sea exacta.
+## Reproducción local
 
-## Física y habitaciones
-
-`analysis/native-constants.json` conserva valores leídos directamente del PE y sus direcciones. Las pruebas los contrastan con los valores del runtime:
-
-| Dato | Dirección | Valor |
-|---|---|---|
-| Gravedad | `0050a7c0` | 1800 |
-| Velocidad horizontal | `0050a7c4` | 250 |
-| Velocidad en escalera | `0050a820` | 150 |
-| Caja del jugador | `004eef3c`, `004eef38` | 50 × 90 |
-| Salto, 0 a 4 Vascolet | `0050a7d0`, paso 8 bytes | magnitudes 600, 700, 790, 810, 850 |
-| Doble salto, 0 a 4 Cereales | `0050a7f8`, paso 8 bytes | magnitudes 0, 640, 680, 720, 760 |
-| Habitación | `004eee0c`, `004eedd0` | 16 × 12 tiles |
-| Región nativa de presentación | `004eef78`, `004eee64` | 1200 × 900 |
-
-El port conserva coordenadas TMX de 76 px, divide el mapa en habitaciones de 1216 × 912 y las adapta a Canvas 800 × 600. El ajuste exacto de la región nativa de 1200 × 900 y las transiciones entre habitaciones aún necesita comparación visual con Windows.
-
-Otras evidencias consultadas: `004313c0` para estados/saltos; `0042d8d0` para diez vidas iniciales; carteles del mapa para 2.000 puntos por vida; `00441950` y `004343f0` para apertura y consumo de llaves.
-
-## Repetir la extracción
-
-No se necesita Python ni el EXE para ejecutar el port, solamente para regenerar los manifiestos. Con una copia local extraída del mismo juego:
+Requiere Windows, Visual Studio Build Tools x86/Windows SDK, el laboratorio de referencia de Vascolet 4 y la copia instalada de Vascolet 1:
 
 ```sh
 python -m pip install -r tools/requirements.txt
-python tools/extract-original.py --source RUTA_A_LA_CARPETA_EXTRAIDA
+python tools/native-observe.py --build
+python tools/survey-original.py
 ```
 
-Para el análisis Ghidra, importar `Vascolet.exe` en un proyecto, ejecutar el análisis automático y ejecutar `tools/ExportVascoletGame.java` con la carpeta de salida como argumento. Exporta `funciones.tsv` con las columnas `address`, `name`, `size`, además del pseudocódigo del intervalo principal del juego. Después:
+Para las escenas de interfaz, usar los planes `analysis/native-*.plan.json`; por ejemplo:
 
 ```sh
-python tools/recover-atlas.py --exe RUTA_A_Vascolet.exe --index RUTA_A_funciones.tsv
-npm test
+python tools/native-observe.py --plan analysis/native-selection-skins.plan.json --output analysis/native-reference/selection-skins
+python tools/build-native-skins.py
 ```
 
-Los valores por defecto buscan el análisis inicial en la carpeta hermana `vascolet1-analisis/`. La emulación requiere el índice completo de Ghidra para determinar la limpieza de argumentos de las funciones interceptadas. `ExportVascoletGame.java` también exporta `index.tsv` con resultados de descompilación; ese segundo archivo **no sustituye** a `funciones.tsv`.
+Los planes exploratorios pueden depender del progreso del perfil temporal. El barrido sistemático fuerza el selector y reconoce las ilustraciones en vez de depender de un número fijo de Enter.
+
+La recuperación de atlas necesita un índice completo de funciones de Ghidra (`address`, `name`, `size`). `tools/ExportVascoletGame.java` exporta ese índice y pseudocódigo del intervalo principal. `tools/import-native-reference.py` integra las tablas observadas y usa la exportación `analysis/native/00443070.c` para el orden de caracteres.
+
+```sh
+python tools/extract-original.py
+python tools/recover-atlas.py --index RUTA_A_funciones.tsv
+python tools/import-native-reference.py
+npm run compare:native
+npm run compare:scenes
+python tools/build-evidence.py
+```
+
+Los informes separan comparación visual estática, fixtures de mecánicas y aspectos temporales pendientes. [Estado detallado](status.md).

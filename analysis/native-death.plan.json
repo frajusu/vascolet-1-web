@@ -1,0 +1,20 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"unlock","levels":5},
+  {"action":"click","x":700,"y":85,"after":1},
+  {"action":"click","x":100,"y":300,"after":1},
+  {"action":"advanceIntros"},
+  {"action":"wait","seconds":1},
+  {"action":"normalDamage"},
+  {"action":"room","column":2,"row":3,"x":570,"y":759,"after":0.1},
+  {"action":"capture","name":"hit"},
+  {"action":"pointer","address":"0x510580","offset":528,"size":128},
+  {"action":"wait","seconds":0.6},
+  {"action":"capture","name":"hit-wait"},
+  {"action":"wait","seconds":0.5},
+  {"action":"capture","name":"death-flight"},
+  {"action":"pointer","address":"0x510580","offset":528,"size":128},
+  {"action":"wait","seconds":1.5},
+  {"action":"capture","name":"respawn"},
+  {"action":"pointer","address":"0x5105b0","offset":0,"size":40}
+]

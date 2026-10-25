@@ -3,6 +3,8 @@ _site/
 analysis/*.jpg
 analysis/*.png
 analysis/native/
+analysis/native-reference/
+analysis/web-reference/
 test-results/
 *.log
 *.pyc

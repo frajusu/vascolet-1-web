@@ -1,0 +1,18 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"unlock","levels":5},
+  {"action":"click","x":700,"y":85,"after":1},
+  {"action":"click","x":100,"y":300,"after":1},
+  {"action":"advanceIntros"},
+  {"action":"wait","seconds":1},
+  {"action":"collectExit","after":0.1},
+  {"action":"capture","name":"exit-effect"},
+  {"action":"wait","seconds":0.5},
+  {"action":"capture","name":"exit-effect-06"},
+  {"action":"wait","seconds":1},
+  {"action":"capture","name":"exit-after16"},
+  {"action":"wait","seconds":2},
+  {"action":"capture","name":"exit-after36"},
+  {"action":"wait","seconds":4},
+  {"action":"capture","name":"exit-after76"}
+]

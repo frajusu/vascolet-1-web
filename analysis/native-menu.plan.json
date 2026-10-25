@@ -1,0 +1,19 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"click","x":700,"y":140,"after":1},
+  {"action":"capture","name":"options"},
+  {"action":"press","key":1,"after":0.5},
+  {"action":"capture","name":"options-escape"},
+  {"action":"click","x":700,"y":85,"after":1},
+  {"action":"capture","name":"play"},
+  {"action":"press","key":28,"after":0.4},
+  {"action":"capture","name":"play-enter"},
+  {"action":"press","key":28,"after":0.4},
+  {"action":"capture","name":"play-enter2"},
+  {"action":"press","key":28,"after":0.4},
+  {"action":"capture","name":"play-enter3"},
+  {"action":"press","key":28,"after":0.4},
+  {"action":"capture","name":"play-enter4"},
+  {"action":"press","key":28,"after":1},
+  {"action":"capture","name":"play-enter5"}
+]

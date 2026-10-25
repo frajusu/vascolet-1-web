@@ -1,0 +1,6 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"unlock","levels":5},
+  {"action":"click","x":700,"y":85,"after":2},
+  {"action":"capture","name":"level-select"}
+]

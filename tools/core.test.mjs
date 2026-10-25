@@ -4,9 +4,9 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { JSDOM } from 'jsdom';
 import { parseTMX,originalText,HARD,PLATFORM,HAZARD } from '../js/tmx.js';
-import { PHYSICS,moveBody,flagsAt,hazardous } from '../js/physics.js';
+import { PHYSICS,SKIN,nativeMotion,moveBody,flagsAt,hazardous } from '../js/physics.js';
 import { sanitizeSave } from '../js/save.js';
-import { ROOM_COLUMNS,ROOM_ROWS } from '../js/game.js';
+import { World,ERAS,ROOM_COLUMNS,ROOM_ROWS } from '../js/game.js';
 const root=new URL('../',import.meta.url);
 const json=async p=>JSON.parse(await readFile(new URL(p,root),'utf8'));
 const parse=xml=>parseTMX(new JSDOM(xml,{contentType:'application/xml'}).window.document);
@@ -39,22 +39,37 @@ test('recovered rectangles, grids, pivots and all animation frames fit original 
   assert.ok(count>250);
 });
 test('player constants and room layout match the binary evidence',async()=>{
-  const c=await json('analysis/native-constants.json');for(const k of ['speed','gravity','climb','width','height'])assert.equal(PHYSICS[k],c[k].value,k);
+  const c=await json('analysis/native-constants.json');for(const k of ['speed','gravity','maxSpeed','climb','width','height'])assert.equal(PHYSICS[k],c[k].value,k);
   assert.deepEqual(PHYSICS.jumps,c.jumps.values);assert.deepEqual(PHYSICS.doubleJumps,c.doubleJumps.values);assert.equal(ROOM_COLUMNS,c.roomColumns.value);assert.equal(ROOM_ROWS,c.roomRows.value);
 });
 function fixture(){const m={w:30,h:20,tw:76,th:76,flags:new Uint8Array(600)};for(let x=0;x<30;x++)m.flags[10*30+x]=HARD;return m;}
 test('gravity, stable grounding, jumping, ceiling and high-speed collision',()=>{
-  const m=fixture(),b={x:100,y:400,w:50,h:90,vx:0,vy:0};for(let i=0;i<120;i++){b.vy+=PHYSICS.gravity/60;moveBody(m,b,1/60);}assert.equal(b.y,670);assert.ok(b.grounded);
-  b.vy=-PHYSICS.jumps[0];let highest=b.y;for(let i=0;i<60;i++){b.vy+=PHYSICS.gravity/60;moveBody(m,b,1/60);highest=Math.min(highest,b.y);}assert.ok(highest<580&&highest>550);assert.equal(b.y,670);
+  const m=fixture(),b={x:100,y:400,w:50,h:90,vx:0,vy:0};for(let i=0;i<120;i++){b.vy+=PHYSICS.gravity/60;moveBody(m,b,1/60);}assert.equal(b.y,670-SKIN);assert.ok(b.grounded);
+  b.vy=-PHYSICS.jumps[0];let highest=b.y;for(let i=0;i<60;i++){b.vy+=PHYSICS.gravity/60;moveBody(m,b,1/60);highest=Math.min(highest,b.y);}assert.ok(highest<580&&highest>550);assert.equal(b.y,670-SKIN);
   m.flags[5*30+3]=HARD;b.x=300;b.y=500;b.vx=-3000;b.vy=0;moveBody(m,b,.1);assert.ok(b.x>=0);
   b.x=3*76+10;b.y=500;b.vx=0;b.vy=-1500;moveBody(m,b,.1);assert.equal(b.y,6*76);assert.ok(b.hitCeiling);
 });
 test('one-way platforms, dropping through, solid doors and hazard detection',()=>{
-  const m=fixture();m.flags[8*30+2]=PLATFORM;const b={x:160,y:500,w:50,h:90,vx:0,vy:400};moveBody(m,b,.1);assert.equal(b.y,518);assert.ok(b.grounded);
-  b.vy=200;moveBody(m,b,.1,{drop:true});assert.ok(b.y>518);
+  const m=fixture();m.flags[8*30+2]=PLATFORM;const b={x:160,y:500,w:50,h:90,vx:0,vy:400};moveBody(m,b,.1);assert.equal(b.y,518-SKIN);assert.ok(b.grounded);
+  b.vy=200;moveBody(m,b,.1,{drop:true});assert.ok(b.y>518-SKIN);
   const door={x:300,y:0,w:76,h:760,open:false};b.x=240;b.y=400;b.vx=500;b.vy=0;moveBody(m,b,.1,{doors:[door]});assert.equal(b.x,250);
   door.open=true;b.vx=500;moveBody(m,b,.1,{doors:[door]});assert.equal(b.x,300);
   m.flags[5*30+4]=HAZARD;assert.ok(hazardous(m,b));assert.equal(flagsAt(m,-1,-1),0);
+});
+test('observed object geometry corresponds to every original placed object',async()=>{
+  const native=await json('assets/data/native-objects.json');let count=0;
+  assert.deepEqual(ERAS.map(e=>e.id),['prehistory','egypt','castle','pirates','future']);
+  for(const era of ERAS){const m=parse(await readFile(new URL(`assets/data/${era.id}.tmx`,root),'utf8'));assert.equal(native[era.id].length,m.objects.filter(o=>o.type!=='Vascolet').length);for(const o of native[era.id]){assert.equal(o.type,m.objects[o.id].type);assert.ok([o.x,o.y,o.w,o.h,...o.room].every(Number.isFinite));assert.ok(o.w>0&&o.h>0);count++;}}
+  assert.equal(count,1674);
+});
+test('native analytical integration, vector speed limit and viewport seams',()=>{
+  let b={vx:0,vy:-600},y=0;for(let i=0;i<20;i++){const motion=nativeMotion(b,1/60);y+=motion.moveVY/60;b.vx=motion.vx;b.vy=motion.vy;}assert.ok(Math.abs(y+100)<1e-9);assert.equal(b.vy,0);
+  const fast=nativeMotion({vx:1400,vy:1400},1/60);assert.ok(Math.hypot(fast.vx,fast.vy)<=1500.00001);
+  const w=new World();w.map={w:32,h:24,tw:76,th:76};w.player={x:1201-25,y:100,w:50,h:90};w.camera={x:0,y:0};w.roomKey='0,0';w.updateCamera(1/60);assert.equal(w.camera.x,1216);assert.equal(w.player.x+w.player.w/2-w.camera.x,1);
+});
+test('observed UI atlases, original font and raster selector states are intact',async()=>{
+  const ui=await json('assets/data/ui-atlas.json'),font=await json('assets/data/font.json'),skins=await json('assets/data/native-skins.json');assert.equal(ui.MENU_BUTTON.length,4);assert.equal(ui.OPTIONS.length,6);assert.equal(Object.keys(font.glyphs).length,137);assert.equal(font.glyphs.J.advance,12);assert.equal(skins.states.length,9);
+  for(const s of skins.states)assert.equal(createHash('sha256').update(await readFile(new URL(s.path,root))).digest('hex'),s.sha256);
 });
 test('original Spanish escapes and corrupt save data are handled',()=>{
   assert.equal(originalText('\\!Energ\\ia!\\nBa\\mo'), '¡Energía!\nBaño');

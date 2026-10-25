@@ -1,0 +1,50 @@
+{
+  "binarySha256": "7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71",
+  "states": [
+    {
+      "path": "assets/gui/native/hover-0.png",
+      "source": "analysis/native-reference/selection-skins/hover-0.png",
+      "sha256": "e86e7c8d2150f97d5d89ff59c935a0b6383dfcd20354835236dd4231ca8ef0ec"
+    },
+    {
+      "path": "assets/gui/native/hover-1.png",
+      "source": "analysis/native-reference/selection-skins/hover-1.png",
+      "sha256": "b0d2d4b2dc0371a6cbeca566b38e1db518ade2c60289b5de8dec80ea260fc6f3"
+    },
+    {
+      "path": "assets/gui/native/hover-2.png",
+      "source": "analysis/native-reference/selection-skins/hover-2.png",
+      "sha256": "877156f8eeeeacb618ec8ced2f1344dc45d301d53c939e16f746e179da32f6d7"
+    },
+    {
+      "path": "assets/gui/native/hover-3.png",
+      "source": "analysis/native-reference/selection-skins/hover-3.png",
+      "sha256": "c1dcce79b9b8f826c04a61baac7c4d4d84c763586c9450248c96ae8a71b22c61"
+    },
+    {
+      "path": "assets/gui/native/hover-4.png",
+      "source": "analysis/native-reference/selection-skins/hover-4.png",
+      "sha256": "06b0ff6cfdc35855554194a3fda27a26183812b3dab53806cb60663a786e6d92"
+    },
+    {
+      "path": "assets/gui/native/select-2.png",
+      "source": "analysis/native-reference/selection-skins/select-2.png",
+      "sha256": "472e1e8a52b005fdabcb992d053a44dfe567e45f30a8c0abb450592ed47e1411"
+    },
+    {
+      "path": "assets/gui/native/select-3.png",
+      "source": "analysis/native-reference/selection-skins/select-3.png",
+      "sha256": "b7406a5df211b1ad120dbde5e80e7e4def4693cf2fe3d497b9234a8c12e8d3e7"
+    },
+    {
+      "path": "assets/gui/native/select-4.png",
+      "source": "analysis/native-reference/selection-skins/select-4.png",
+      "sha256": "a73dd18b2f79ac73ad5dd72fc1d3aee1cfd7ddb402fb704b22b0235a1ce1c165"
+    },
+    {
+      "path": "assets/gui/native/select-5.png",
+      "source": "analysis/native-reference/selection-skins/select-5.png",
+      "sha256": "a73dd18b2f79ac73ad5dd72fc1d3aee1cfd7ddb402fb704b22b0235a1ce1c165"
+    }
+  ]
+}

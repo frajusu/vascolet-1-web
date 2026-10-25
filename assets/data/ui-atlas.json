@@ -1,0 +1,285 @@
+{
+  "HUD_BACKGROUND": [
+    {
+      "image": "assets/images/menuElements/back_hud.png",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 600.0,
+      "h": 92.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/back_hud.png",
+      "x": 0.0,
+      "y": 92.0,
+      "w": 600.0,
+      "h": 92.0,
+      "ax": 0.0,
+      "ay": 0.0
+    }
+  ],
+  "HUD_CEREALS": [
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 78.0,
+      "y": 11.0,
+      "w": 71.0,
+      "h": 55.0,
+      "ax": 0.0,
+      "ay": 27.0
+    },
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 686.0,
+      "y": 11.0,
+      "w": 71.0,
+      "h": 55.0,
+      "ax": 0.0,
+      "ay": 27.0
+    }
+  ],
+  "HUD_HERO": [
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 152.0,
+      "y": 0.0,
+      "w": 76.0,
+      "h": 76.0,
+      "ax": 0.0,
+      "ay": 0.0
+    }
+  ],
+  "HUD_KEYS": [
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 228.0,
+      "y": 0.0,
+      "w": 76.0,
+      "h": 76.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 304.0,
+      "y": 0.0,
+      "w": 76.0,
+      "h": 76.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 380.0,
+      "y": 0.0,
+      "w": 76.0,
+      "h": 76.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 456.0,
+      "y": 0.0,
+      "w": 76.0,
+      "h": 76.0,
+      "ax": 0.0,
+      "ay": 0.0
+    }
+  ],
+  "HUD_MILK_GLASSES": [
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 13.0,
+      "y": 3.0,
+      "w": 50.0,
+      "h": 70.0,
+      "ax": 0.0,
+      "ay": 35.0
+    },
+    {
+      "image": "assets/images/menuElements/items.png",
+      "x": 621.0,
+      "y": 3.0,
+      "w": 50.0,
+      "h": 70.0,
+      "ax": 0.0,
+      "ay": 35.0
+    }
+  ],
+  "MENU": [
+    {
+      "image": "assets/images/menuElements/menu.jpg",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 2048.0,
+      "h": 1024.0,
+      "ax": 0.0,
+      "ay": 0.0
+    }
+  ],
+  "MENU_BUTTON": [
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 0.0,
+      "y": 5.0,
+      "w": 249.0,
+      "h": 70.0,
+      "ax": 124.5,
+      "ay": 35.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 250.0,
+      "y": 5.0,
+      "w": 249.0,
+      "h": 70.0,
+      "ax": 124.5,
+      "ay": 35.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 0.0,
+      "y": 85.0,
+      "w": 249.0,
+      "h": 70.0,
+      "ax": 124.5,
+      "ay": 35.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 250.0,
+      "y": 85.0,
+      "w": 249.0,
+      "h": 70.0,
+      "ax": 124.5,
+      "ay": 35.0
+    }
+  ],
+  "OPTIONS": [
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 290.0,
+      "h": 640.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 300.0,
+      "y": 0.0,
+      "w": 50.0,
+      "h": 60.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 350.0,
+      "y": 0.0,
+      "w": 50.0,
+      "h": 60.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 300.0,
+      "y": 60.0,
+      "w": 40.0,
+      "h": 40.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 340.0,
+      "y": 60.0,
+      "w": 40.0,
+      "h": 40.0,
+      "ax": 0.0,
+      "ay": 0.0
+    },
+    {
+      "image": "assets/images/menuElements/opciones_tile.png",
+      "x": 380.0,
+      "y": 60.0,
+      "w": 40.0,
+      "h": 40.0,
+      "ax": 0.0,
+      "ay": 0.0
+    }
+  ],
+  "PAUSE_DIALOG": [
+    {
+      "image": "assets/lang/images/menu/banner.png",
+      "x": 10.0,
+      "y": 24.0,
+      "w": 280.0,
+      "h": 548.0,
+      "ax": 140.0,
+      "ay": 274.0
+    },
+    {
+      "image": "assets/lang/images/menu/banner.png",
+      "x": 16.0,
+      "y": 608.0,
+      "w": 368.0,
+      "h": 263.0,
+      "ax": 184.0,
+      "ay": 131.5
+    }
+  ],
+  "PIXEL": [
+    {
+      "image": "assets/images/enemies/pixel.png",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 1.0,
+      "h": 1.0,
+      "ax": 0.5,
+      "ay": 0.5
+    }
+  ],
+  "SMALL_BUTTON": [
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 5.0,
+      "y": 162.0,
+      "w": 139.0,
+      "h": 56.0,
+      "ax": 69.5,
+      "ay": 28.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 155.0,
+      "y": 162.0,
+      "w": 139.0,
+      "h": 56.0,
+      "ax": 69.5,
+      "ay": 28.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 5.0,
+      "y": 222.0,
+      "w": 139.0,
+      "h": 56.0,
+      "ax": 69.5,
+      "ay": 28.0
+    },
+    {
+      "image": "assets/images/menuElements/buttons_tile.png",
+      "x": 155.0,
+      "y": 222.0,
+      "w": 139.0,
+      "h": 56.0,
+      "ax": 69.5,
+      "ay": 28.0
+    }
+  ]
+}

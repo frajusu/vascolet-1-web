@@ -4,6 +4,10 @@
     "address": "0050a7c0",
     "value": 1800.0
   },
+  "maxSpeed": {
+    "address": "004ea3c8",
+    "value": 1500.0
+  },
   "speed": {
     "address": "0050a7c4",
     "value": 250.0

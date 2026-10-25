@@ -1,0 +1,12 @@
+[
+  {"action":"wait","seconds":1},
+  {"action":"pointer","address":"0x5101ac","size":208},
+  {"action":"mouse","x":700,"y":85,"down":true},
+  {"action":"pointer","address":"0x5101ac","offset":184,"size":24},
+  {"action":"mouse","x":700,"y":85,"down":false},
+  {"action":"pointer","address":"0x5101ac","offset":184,"size":24},
+  {"action":"mouse","x":700,"y":85,"down":true},
+  {"action":"pointer","address":"0x5101ac","offset":184,"size":24},
+  {"action":"mouse","x":700,"y":85,"down":false,"after":1},
+  {"action":"capture","name":"double-click-play"}
+]

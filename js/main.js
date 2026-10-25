@@ -1,68 +1,111 @@
-import { Art,loadArt,loadImage } from './assets.js';
-import { World,ERAS } from './game.js';
-import { renderWorld,drawPage } from './render.js';
-import { Input,setupInput } from './input.js';
-import { Save } from './save.js';
-import { AudioSystem as Audio } from './audio.js';
+import {Art,image,loadArt,loadImage,loadJSON,drawSprite} from './assets.js';
+import {World,ERAS} from './game.js';
+import {renderWorld,drawPage} from './render.js';
+import {uiFrame,nativeText,nativeButton} from './native-ui.js';
+import {Input,setupInput} from './input.js';
+import {Save} from './save.js';
+import {AudioSystem as Audio} from './audio.js';
 
-const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),panels=document.querySelector('#panels'),loading=document.querySelector('#loading'),error=document.querySelector('#error');
-const world=new World();let state='boot',pagePath='',sequence=[],afterSequence=null,generation=0,menuIndex=0,accumulator=0,last=0;
-const query=new URLSearchParams(location.search),testMode=query.has('test');
-function reportError(err){state='error';loading.hidden=true;error.hidden=false;error.replaceChildren();const title=document.createElement('strong');title.textContent='No se pudo preparar el viaje';const detail=document.createElement('span');detail.textContent=err.message;const retry=document.createElement('button');retry.className='action';retry.textContent='Volver a cargar';retry.onclick=()=>location.reload();error.append(title,detail,retry);console.error(err);}
-function guard(fn){return(...args)=>Promise.resolve().then(()=>fn(...args)).catch(reportError);}
-function setState(next){state=next;Input.release();panels.replaceChildren();menuIndex=0;document.querySelector('#pause').hidden=next!=='playing';document.querySelector('#touch').hidden=next!=='playing';document.querySelectorAll('[data-era]').forEach((b,i)=>{b.classList.toggle('active',Boolean(world.map)&&world.level===i);b.classList.toggle('completed',Save.data.completed.includes(i));});}
-function button(label,action,primary=false){const b=document.createElement('button');b.className='action'+(primary?' primary':'');b.textContent=label;b.onclick=guard(action);return b;}
-function panel(title,description){const p=document.createElement('section');p.className='panel';if(title){const h=document.createElement('h2');h.textContent=title;p.append(h);}if(description){const text=document.createElement('p');text.textContent=description;p.append(text);}panels.append(p);return p;}
-function stack(p,...buttons){const s=document.createElement('div');s.className='stack';s.append(...buttons);p.append(s);}
-function gameFocus(){canvas.focus({preventScroll:true});}
+const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),controls=document.querySelector('#controls'),boot=document.querySelector('#boot'),err=document.querySelector('#err');
+const world=new World(),testMode=new URLSearchParams(location.search).has('test');
+let state='boot',pagePath='',story=[],afterStory=null,buttons=[],hover=null,pressed=null,last=0,accumulator=0,generation=0,confirmation=null,selection=[],musicVolume=.5,effectsVolume=.5,frozen=false;
+const MENU=['Jugar','Opciones','Ayuda','Creditos','Salir'];
+function fit(){const available=Math.min(innerWidth/800,innerHeight/600),scale=available>=1?Math.floor(available):available;canvas.style.width=(Save.data.settings.stretch?innerWidth:800*scale)+'px';canvas.style.height=(Save.data.settings.stretch?innerHeight:600*scale)+'px';const r=canvas.getBoundingClientRect();Object.assign(controls.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});}
+function fail(error){state='error';boot.hidden=true;err.textContent='No se pudo iniciar el juego. Recarga para volver a intentar.\n'+(error.stack??error);console.error(error);}
+const guarded=fn=>(...args)=>Promise.resolve().then(()=>fn(...args)).catch(fail);
+function change(next){state=next;buttons=[];hover=pressed=null;controls.replaceChildren();Input.release();canvas.style.cursor=next==='playing'?'none':'default';}
+function hit(label,x,y,w,h,action,{small=false,disabled=false,draw=true}={}){
+  const b={id:buttons.length,label,x,y,w,h,action,small,disabled,draw};buttons.push(b);
+  const el=document.createElement('button');el.textContent=label;el.disabled=disabled;el.setAttribute('aria-label',label);el.style.left=x/12+'%';el.style.top=y/9+'%';el.style.width=w/12+'%';el.style.height=h/9+'%';
+  el.onpointerenter=()=>{hover=b.id;};el.onpointerleave=()=>{if(hover===b.id)hover=null;pressed=null;};el.onpointerdown=()=>{pressed=b.id;};el.onpointerup=()=>{pressed=null;};el.onfocus=()=>{hover=b.id;};el.onblur=()=>{if(hover===b.id)hover=null;};el.onclick=guarded(action);controls.append(el);return b;
+}
+function button(label,cx,cy,action,{small=false,disabled=false}={}){const f=Art.ui[small?'SMALL_BUTTON':'MENU_BUTTON'][0];return hit(label,cx-f.w/2,cy-f.h/2,f.w,f.h,action,{small,disabled});}
 async function page(path){await loadImage(path);pagePath=path;}
-async function showMenu(){generation++;world.persist();setState('menu');await page('assets/images/menuElements/menu.jpg');Audio.playMusic('andy');const p=panel();p.classList.add('menu-panel');p.append(button('Nueva aventura',newAdventure,true),button('Continuar',continueRun),button('Elegir época',levelSelect),button('Opciones',()=>options('menu')),button('Ayuda',()=>imageScreen('assets/lang/images/help/ayuda.jpg')),button('Créditos',()=>imageScreen('assets/lang/images/credits/creditos.jpg')));const note=document.createElement('p');note.className='menu-note';note.textContent=Save.available?'Tu avance se guarda en este navegador.':'El guardado no está disponible en este navegador.';p.append(note);}
-async function playSequence(paths,done){setState('story');sequence=[...paths];afterSequence=done;await advanceStory();}
-async function advanceStory(){if(sequence.length){panels.replaceChildren();await page(sequence.shift());const p=panel();p.classList.add('image-panel');p.append(button('Continuar ↵',advanceStory,true));}else{const done=afterSequence;afterSequence=null;await done?.();}}
-async function newAdventure(){const begin=()=>{Save.data.run=null;Save.write();return playSequence([1,2,3,4].map(n=>`assets/lang/images/intros/intro_page${n}.jpg`),()=>startEra(0));};if(Save.data.run){setState('confirm');const p=panel('¿Comenzar otro viaje?','Se reemplazará el punto de salvado de esta aventura.');stack(p,button('Comenzar',begin,true),button('Volver',showMenu));}else await begin();}
-async function continueRun(){const saved=Save.data.run;if(saved)await loadLevel(saved.level,{resume:true});else await startEra(Save.data.lastLevel);}
-async function startEra(level,{carry=false}={}){await playSequence([`assets/lang/images/intros/${ERAS[level].intro}.jpg`],()=>loadLevel(level,{carry}));}
+async function menu(){generation++;world.persist();change('menu');await page('assets/images/menuElements/menu.jpg');Audio.playMusic('andy');MENU.forEach((label,i)=>button(label,1060,130+80*i,[play,options,()=>imageScreen('assets/lang/images/help/ayuda.jpg'),()=>imageScreen('assets/lang/images/credits/creditos.jpg'),exit][i]));}
+async function play(){
+  if(Save.data.completed.length){await select();return;}
+  if(Save.data.run){await loadLevel(Save.data.run.level,{resume:true});return;}
+  await sequence([1,2,3,4].map(n=>`assets/lang/images/intros/intro_page${n}.jpg`),()=>startEra(0));
+}
+async function sequence(paths,done){story=[...paths];afterStory=done;await advance();}
+async function advance(){
+  if(!story.length){const done=afterStory;afterStory=null;await done?.();return;}
+  const path=story.shift();change('story');await page(path);hit('Continuar',0,0,1200,900,advance,{draw:false});
+}
+async function imageScreen(path){change('image');await page(path);hit('Continuar',0,0,1200,900,menu,{draw:false});}
+async function startEra(level,{carry=false}={}){const resume=Save.data.run?.level===level;await sequence([`assets/lang/images/intros/${ERAS[level].intro}.jpg`],()=>loadLevel(level,{carry,resume}));}
 async function loadLevel(level,options={}){
-  const token=++generation;setState('loading');loading.hidden=false;loading.querySelector('strong').textContent='Viajando a '+ERAS[level].name+'…';
-  try{await world.load(level,options);if(token!==generation)return;loading.hidden=true;setState('playing');gameFocus();accumulator=0;}catch(err){if(token===generation)reportError(err);}
+  const token=++generation;change('loading');boot.hidden=false;boot.textContent='Cargando…';await world.load(level,options);if(token!==generation)return;boot.hidden=true;resume();
 }
-async function levelSelect(){world.persist();setState('levels');await page('assets/lang/images/seleccionar_nivel/fondo_seleccionar_nivel.jpg');const p=panel('Elige una época');stack(p,...ERAS.map((era,i)=>button((Save.data.completed.includes(i)?'✓ ':'')+era.name,()=>startEra(i))),button('Volver',showMenu));const hint=document.createElement('small');hint.textContent='Puedes explorar las cinco épocas. Cada una inicia con sus propios objetos y poderes.';p.append(hint);}
-function pause(){if(state!=='playing')return;world.persist();setState('paused');Audio.suspend();const p=panel('Viaje en pausa');stack(p,button('Seguir jugando',resume,true),button('Opciones',()=>options('paused')),button('Volver al punto de salvado',()=>{world.resetPlayer();resume();}),button('Elegir época',levelSelect),button('Menú principal',showMenu));}
-function resume(){setState('playing');Audio.resume();gameFocus();accumulator=0;}
-function options(back){setState('options');const p=panel('Opciones');const volume=document.createElement('label');volume.className='setting';volume.append('Volumen');const range=document.createElement('input');range.type='range';range.min=0;range.max=1;range.step=.05;range.value=Save.data.settings.volume;range.setAttribute('aria-label','Volumen');range.oninput=()=>{Save.data.settings.volume=Number(range.value);Save.write();Audio.volume();};volume.append(range);p.append(volume);const smoothing=document.createElement('label');smoothing.className='setting';smoothing.append('Suavizar imágenes');const check=document.createElement('input');check.type='checkbox';check.checked=Save.data.settings.smooth;check.onchange=()=>{Save.data.settings.smooth=check.checked;Save.write();};smoothing.append(check);p.append(smoothing);stack(p,button('Pantalla completa',fullscreen),button('Borrar progreso',()=>confirmReset(back)),button('Volver',back==='paused'?()=>{resume();pause();}:showMenu));}
-function confirmReset(back){setState('confirm');const p=panel('¿Borrar el progreso?','Se borrarán los puntos de salvado y las épocas completadas de este navegador.');stack(p,button('Borrar progreso',()=>{Save.reset();world.map=null;showMenu();}),button('Conservar mi progreso',()=>options(back),true));}
-async function imageScreen(path){setState('image');await page(path);const p=panel();p.classList.add('image-panel');p.append(button('Volver al menú ↵',showMenu));}
-async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.querySelector('.stage').requestFullscreen();}catch{if(state==='playing')world.notify('Usa el botón de pantalla completa del navegador.',4);}}
-async function completed(level){setState('completed');const p=panel('¡Microondas encontrado!',`Completaste ${ERAS[level].name}. La máquina está lista para otro salto en el tiempo.`);stack(p,button(level<4?'Viajar a '+ERAS[level+1].name:'Ver el final',()=>level<4?startEra(level+1,{carry:true}):playSequence(['assets/lang/images/intros/fin.jpg'],showMenu),true),button('Elegir época',levelSelect),button('Menú principal',showMenu));}
-function handleMenuInput(){
-  const buttons=[...panels.querySelectorAll('button:not(:disabled)')];
-  if(Input.tap('ArrowDown','ArrowRight')){menuIndex=(menuIndex+1)%Math.max(1,buttons.length);buttons[menuIndex]?.focus();}
-  if(Input.tap('ArrowUp','ArrowLeft')){menuIndex=(menuIndex-1+buttons.length)%Math.max(1,buttons.length);buttons[menuIndex]?.focus();}
-  if(Input.tap('Enter','Space')){const active=document.activeElement;const target=buttons.includes(active)?active:buttons[menuIndex];Input.flush();target?.click();}
+function resume(){change('playing');hit('Pausa',480,0,240,45,pause,{draw:false});Audio.resume();canvas.focus({preventScroll:true});accumulator=0;}
+function pause(){if(state!=='playing')return;world.persist();change('paused');Audio.suspend();button('Jugar',600,517,resume);button('Salir',600,592,()=>confirm('¿Seguro que quieres\nvolver al menú\nprincipal?',menu,restorePause));}
+function restorePause(){change('playing');pause();}
+function confirm(text,yes,no){confirmation={text,yes,no};change('confirm');button('Sí',520,580,yes,{small:true});button('No',680,580,no,{small:true});}
+function exit(){change('exited');Audio.suspend();ctx.fillStyle='#000';ctx.fillRect(0,0,800,600);}
+async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.querySelector('#wrap').requestFullscreen();}catch{}fit();}
+function options(){
+  change('options');musicVolume=Save.data.settings.musicVolume??.5;effectsVolume=Save.data.settings.effectsVolume??.5;
+  function slider(label,y,value,callback){const input=document.createElement('input');input.type='range';input.min=0;input.max=1;input.step=.01;input.value=value;input.setAttribute('aria-label',label);Object.assign(input.style,{left:492/12+'%',top:(y+4)/9+'%',width:226/12+'%',height:32/9+'%'});input.oninput=()=>{callback(Number(input.value));Audio.volume();Save.write();};controls.append(input);}
+  slider('Música',264,musicVolume,v=>{musicVolume=v;Save.data.settings.musicVolume=v;});slider('Efectos',357,effectsVolume,v=>{effectsVolume=v;Save.data.settings.effectsVolume=v;});
+  hit('Apagar música',677,211,50,60,()=>{Save.data.settings.musicOn=!(Save.data.settings.musicOn!==false);Save.write();Audio.volume();},{draw:false});
+  hit('Apagar efectos',677,304,50,60,()=>{Save.data.settings.effectsOn=!(Save.data.settings.effectsOn!==false);Save.write();},{draw:false});
+  hit('Pantalla Completa',683,401,40,40,fullscreen,{draw:false});
+  hit('Estirar Pantalla',683,445,40,40,()=>{Save.data.settings.stretch=!Save.data.settings.stretch;Save.write();fit();},{draw:false});button('Atrás',605,530,menu,{small:true});
 }
-function frame(time){
-  const elapsed=Math.min(.1,(time-last)/1000||0);last=time;
+async function select(){
+  const unlocked=Math.min(5,Math.max(1,...Save.data.completed.map(n=>n+2)));
+  if(unlocked===1){await startEra(0);return;}
+  change('levels');await Promise.all([loadImage(`assets/gui/native/select-${unlocked}.png`),...Array.from({length:unlocked},(_,i)=>loadImage(`assets/gui/native/hover-${i}.png`))]);await page(`assets/gui/native/select-${unlocked}.png`);
+  for(let i=0;i<5;i++){const card=selection[i].card;hit(ERAS[i].name,card.x,card.y,card.w,card.h,()=>startEra(i),{disabled:i>=unlocked,draw:false});}button('Atrás',600,870,menu,{small:true}).draw=false;
+}
+function drawMenuButtons(){MENU.forEach((label,i)=>nativeButton(ctx,{label,x:935.5,y:95+80*i,w:249,h:70},state==='menu'&&hover===i,state==='menu'&&pressed===i));}
+function drawInterface(){
+  if(state==='exited')return;
+  if(['playing','paused','confirm'].includes(state)&&world.map)renderWorld(ctx,world);else if(pagePath)drawPage(ctx,pagePath);
+  ctx.save();ctx.scale(2/3,2/3);
+  if(state==='options')drawMenuButtons();
+  if(state==='paused'||state==='confirm'){uiFrame(ctx,'PAUSE_DIALOG',0,600,440);}
+  if(state==='options'){
+    uiFrame(ctx,'OPTIONS',0,455,0);uiFrame(ctx,'OPTIONS',Save.data.settings.musicOn===false?2:1,677,211);uiFrame(ctx,'OPTIONS',Save.data.settings.effectsOn===false?2:1,677,304);
+    uiFrame(ctx,'OPTIONS',document.fullscreenElement?3:4,683,401);uiFrame(ctx,'OPTIONS',Save.data.settings.stretch?3:4,683,445);
+    uiFrame(ctx,'OPTIONS',5,455+37+musicVolume*186,264);uiFrame(ctx,'OPTIONS',5,455+37+effectsVolume*186,357);
+  }
+  if(state==='levels'){
+    const unlocked=Math.min(5,Math.max(1,...Save.data.completed.map(n=>n+2)));
+    if(hover!==null&&hover<unlocked){const card=selection[hover].card,skin=image(`assets/gui/native/hover-${hover}.png`);if(skin){ctx.save();ctx.beginPath();ctx.rect(card.x,card.y,card.w,card.h);ctx.clip();ctx.drawImage(skin,0,0,800,600,0,0,1200,900);ctx.restore();}}
+    for(let i=0;i<unlocked;i++)if(Save.data.bestCoins?.[i]){
+      const bg=image('assets/lang/images/seleccionar_nivel/fondo_seleccionar_nivel.jpg');if(bg)ctx.drawImage(bg,45+225*i,790,180,50,45+225*i,790,180,50);
+      nativeText(ctx,`${Save.data.bestCoins[i]} / 100`,145+225*i,812);drawSprite(ctx,'COIN',225+225*i,830,{scale:.5});
+    }
+  }
+  if(state==='confirm'){
+    uiFrame(ctx,'PAUSE_DIALOG',1,600,500);confirmation.text.split('\n').forEach((s,i)=>nativeText(ctx,s,600,440+i*30));
+  }
+  for(const b of buttons)if(b.draw||(state==='levels'&&b.label==='Atrás'&&(hover===b.id||pressed===b.id)))nativeButton(ctx,b,hover===b.id,pressed===b.id);
+  ctx.restore();
+}
+function tick(t){
+  const elapsed=Math.min(.1,(t-last)/1000||0);last=t;
   try{
-    if(Input.tap('Escape')){Input.flush();if(state==='playing')pause();else if(state==='paused')resume();else if(!['boot','loading','error','menu'].includes(state))guard(showMenu)();}
-    if(state==='playing'){
+    if(Input.tap('Escape')){Input.flush();if(state==='playing')pause();else if(state==='paused')resume();else if(state==='confirm')guarded(confirmation.no)();else if(state==='options'||state==='levels')guarded(menu)();}
+    if(state==='playing'&&!frozen){
       accumulator+=elapsed;while(accumulator>=1/60){world.update(1/60);Input.flush();accumulator-=1/60;}
-      while(world.events.length){const event=world.events.shift();if(event.type==='complete')guard(completed)(event.level);if(event.type==='gameover')guard(imageScreen)('assets/lang/images/intros/perdiste.jpg');}
-    }else{accumulator=0;handleMenuInput();Input.flush();}
-    if(['playing','paused','options','confirm','completed'].includes(state)&&world.map)renderWorld(ctx,world);else if(pagePath)drawPage(ctx,pagePath);
-    if(state==='paused'){ctx.fillStyle='#16090966';ctx.fillRect(0,0,800,600);}
-  }catch(err){reportError(err);}
-  requestAnimationFrame(frame);
+      while(world.events.length){const e=world.events.shift();if(e.type==='complete'){guarded(e.level===4?()=>sequence(['assets/lang/images/intros/fin.jpg'],menu):()=>select())();}else if(e.type==='gameover')guarded(imageScreen)('assets/lang/images/intros/perdiste.jpg');}
+    }else{accumulator=0;if(Input.tap('Enter','Space')){const b=buttons.find(x=>x.id===hover)??buttons.find(x=>!x.disabled);Input.flush();guarded(b?.action??(()=>{}))();}Input.flush();}
+    drawInterface();
+  }catch(error){fail(error);}
+  requestAnimationFrame(tick);
 }
-async function boot(){
-  Save.load();setupInput();document.querySelector('#pause').onclick=pause;document.querySelector('#fullscreen').onclick=fullscreen;
-  for(const b of document.querySelectorAll('[data-era]'))b.onclick=guard(()=>{if(state==='loading'||state==='boot')return;if(state==='playing')world.persist();return startEra(Number(b.dataset.era));});
-  window.addEventListener('blur',()=>{if(state==='playing')pause();});document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')pause();});
-  window.addEventListener('pagehide',()=>world.persist());
-  await loadArt();loading.hidden=true;await showMenu();requestAnimationFrame(frame);
+async function startup(){
+  Save.load();setupInput();addEventListener('resize',fit);document.addEventListener('fullscreenchange',fit);fit();
+  addEventListener('keydown',e=>{if(['story','image'].includes(state)&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!['Shift','Control','Alt','Meta'].includes(e.key)){e.preventDefault();Input.release();guarded(state==='story'?advance:menu)();}});
+  addEventListener('blur',()=>{Input.release();if(state==='playing')pause();});document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')pause();});addEventListener('pagehide',()=>world.persist());
+  await loadArt();selection=await loadJSON('assets/data/selection.json');await loadImage('assets/lang/images/seleccionar_nivel/fondo_seleccionar_nivel.jpg');boot.hidden=true;await menu();requestAnimationFrame(tick);
 }
-// Explicit fixture interface, available only on ?test=1; normal play has no cheats.
-if(testMode)window.__vascolet={world,Art,get state(){return state;},loadLevel,pause,resume,showMenu,
-  step(count=1,held=[],pressed=[]){for(let i=0;i<count;i++){const input={down:(...k)=>k.some(x=>held.includes(x)),tap:(...k)=>i===0&&k.some(x=>pressed.includes(x))};world.update(1/60,input);}renderWorld(ctx,world);},
+if(testMode)window.__vascolet={world,Art,get state(){return state;},loadLevel,pause,resume,showMenu:menu,select,draw:drawInterface,
+  freeze(value=true){frozen=value;Input.release();},
+  place(x,y){Object.assign(world.player,{x,y,vx:0,vy:0});world.updateCamera(1);},
+  step(count=1,held=[],pressedKeys=[]){for(let i=0;i<count;i++)world.update(1/60,{down:(...keys)=>keys.some(k=>held.includes(k)),tap:(...keys)=>i===0&&keys.some(k=>pressedKeys.includes(k))});drawInterface();},
   snapshot(){return {state,level:world.level,player:{...world.player},lives:world.lives,score:world.score,counts:{...world.counts},checkpoint:{...world.checkpoint},consumed:[...world.consumed],complete:world.complete};}
 };
-boot().catch(reportError);
+startup().catch(fail);

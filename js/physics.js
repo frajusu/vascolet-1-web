@@ -1,6 +1,15 @@
 import { HARD,PLATFORM,HAZARD,LADDER,LADDER_END } from './tmx.js';
 // Original data at 0050a7bc..0050a820; world coordinates are original pixels.
-export const PHYSICS=Object.freeze({speed:250,gravity:1800,width:50,height:90,climb:150,jumps:[600,700,790,810,850],doubleJumps:[0,640,680,720,760]});
+export const PHYSICS=Object.freeze({speed:250,gravity:1800,maxSpeed:1500,width:50,height:90,climb:150,jumps:[600,700,790,810,850],doubleJumps:[0,640,680,720,760]});
+export const SKIN=.49;
+// bat::MobileObject, 00447290: displacement v*dt + a*dt²/2, then velocity.
+// The 1500 limit is a VECTOR magnitude, not a separately invented fall speed.
+export function nativeMotion(body,dt,accelY=PHYSICS.gravity){
+  let dx=body.vx*dt,dy=body.vy*dt+accelY*dt*dt/2,vx=body.vx,vy=body.vy+accelY*dt;
+  const displacement=Math.hypot(dx,dy),limit=PHYSICS.maxSpeed*dt;if(displacement>limit){dx*=limit/displacement;dy*=limit/displacement;}
+  const speed=Math.hypot(vx,vy);if(speed>PHYSICS.maxSpeed){vx*=PHYSICS.maxSpeed/speed;vy*=PHYSICS.maxSpeed/speed;}
+  return {moveVX:dx/dt,moveVY:dy/dt,vx,vy};
+}
 export const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 export const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export function flagsAt(map,x,y){const tx=Math.floor(x/map.tw),ty=Math.floor(y/map.th);return tx<0||ty<0||tx>=map.w||ty>=map.h?0:map.flags[ty*map.w+tx];}
@@ -17,7 +26,8 @@ export function moveBody(map,b,dt,{platforms=[],doors=[],drop=false,climbing=fal
     for(let i=0;i<steps;i++){
       const before=axis==='y'?b.y:b.x;b[axis]+=amount/steps;
       const x0=Math.max(0,Math.floor(b.x/map.tw)),x1=Math.min(map.w-1,Math.floor((b.x+b.w-.01)/map.tw));
-      const y0=Math.max(0,Math.floor(b.y/map.th)),y1=Math.min(map.h-1,Math.floor((b.y+b.h-.01)/map.th));
+      const skin=axis==='y'&&amount>=0?SKIN:0;
+      const y0=Math.max(0,Math.floor(b.y/map.th)),y1=Math.min(map.h-1,Math.floor((b.y+b.h+skin-.01)/map.th));
       const solids=[];
       for(let ty=y0;ty<=y1;ty++)for(let tx=x0;tx<=x1;tx++){
         const f=map.flags[ty*map.w+tx];
@@ -25,11 +35,11 @@ export function moveBody(map,b,dt,{platforms=[],doors=[],drop=false,climbing=fal
         if(solid)solids.push({x:tx*map.tw,y:ty*map.th,w:map.tw,h:map.th});
       }
       for(const d of doors)if(!d.open&&overlap(b,d))solids.push(d);
-      if(axis==='y'&&amount>=0&&!drop)for(const p of platforms)if(before+b.h<=p.y+Math.max(2,p.dy??0)&&overlap(b,p))solids.push(p);
+      if(axis==='y'&&amount>=0&&!drop)for(const p of platforms)if(before+b.h<=p.y+Math.max(2,p.dy??0)&&overlap({...b,h:b.h+SKIN},p))solids.push(p);
       for(const r of solids){
-        if(!overlap(b,r))continue;
+        if(!overlap(skin?{...b,h:b.h+skin}:b,r))continue;
         if(axis==='x'){b.x=amount>0?r.x-b.w:r.x+r.w;b.vx=0;b.hitX=true;}
-        else if(amount>=0){b.y=r.y-b.h;b.vy=0;b.grounded=true;}
+        else if(amount>=0){b.y=r.y-b.h-SKIN;b.vy=0;b.grounded=true;}
         else {b.y=r.y+r.h;b.vy=0;b.hitCeiling=true;}
       }
     }

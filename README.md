@@ -1,37 +1,40 @@
 # Vascolet 1 — La máquina del tiempo
 
-Port web **no oficial** del juego de Batoví de 2010, hecho en **JavaScript + Canvas** a partir de los mapas, imágenes y audio originales, y del análisis de su ejecutable C++.
+**[Jugar](https://frajusu.github.io/vascolet-1-web/)** · [Observación del original](docs/reverse-engineering.md) · [Estado de correspondencia](docs/status.md) · [Plan para continuar](docs/CONTINUAR.md)
 
-**[Jugar en el navegador](https://frajusu.github.io/vascolet-1-web/)** · [Método de recuperación](docs/reverse-engineering.md) · [Estado y pruebas](docs/status.md)
+Port web no oficial del juego de Batoví de 2010, en JavaScript y Canvas.
 
-## Jugar
+La página muestra **solamente el juego sobre fondo negro**, como Vascolet 4 web. Menú, opciones, ayuda, créditos, selector, HUD, pausa y confirmación están dentro del juego y siguen las pantallas observadas del ejecutable Windows.
 
-| Control | Acción |
+![Windows original a la izquierda; port web a la derecha](docs/native-comparison.jpg)
+
+## Correspondencia con Windows
+
+La versión 0.2 reemplaza las aproximaciones visuales de la primera versión por datos obtenidos **ejecutando el original**:
+
+- **434 salas capturadas** con su renderer Direct3D: 71 de Prehistoria, 83 de Egipto, 72 de Castillo, 132 de Piratas y 76 de Futuro.
+- **1.674 objetos** vinculados uno a uno con el TMX, con posición, caja física y habitación leídas de memoria del original. Los seis registros del jugador permanecen en los mapas originales.
+- **11 grupos de atlas de interfaz** leídos de las estructuras del juego en ejecución.
+- **137 caracteres** y avances de la fuente bitmap original.
+- **104 entradas de atlas y 57 animaciones**, recuperadas del ejecutable.
+- Dinosaurio en Prehistoria, personaje normal en Egipto/Castillo/Piratas y patineta en Futuro.
+- Orden original: **Prehistoria → Egipto → Castillo → Piratas → Futuro**.
+- Región visible de **1200 × 900**, con habitaciones de 16 × 12 tiles; el port conserva el recorte del original en lugar de hacer zoom para mostrar 1216 × 912.
+
+La comparación de las 434 salas puntúa **el mundo estático**, excluyendo actores móviles, jugador, HUD y texto. Su error RGB medio por época quedó entre **1,2 y 1,8 sobre 255**; eso no es una certificación de física o IA idénticas. Las pruebas de navegador también comparan menús e inicios con PNG del original. [Resultados y límites](analysis/native-validation.json).
+
+## Controles
+
+| Tecla | Acción |
 |---|---|
-| ← / → o A / D | Caminar |
-| Espacio o Z | Saltar; volver a pulsar en el aire tras recoger Cereales |
-| ↑ / ↓ o W / S | Subir y bajar escaleras |
-| ↓ + Espacio | Bajar de una plataforma de una sola cara |
+| ← / → | Caminar |
+| Espacio | Saltar; volver a pulsar en el aire tras recoger Cereales |
+| ↑ / ↓ | Escaleras |
 | Esc | Pausa |
-| Enter / Espacio | Confirmar en menús |
-| Botones en pantalla | Controles táctiles en teléfonos/tabletas |
+| Click | Botones originales del juego |
+| Cualquier tecla / click | Avanzar las ilustraciones |
 
-Recoge Vascolet para aumentar el salto y Cereales para habilitar/mejorar el doble salto. Cada 2.000 puntos ganas una vida. Las puertas consumen llaves de su color. Encuentra el microondas para viajar a la siguiente época.
-
-Hay diez vidas iniciales y puntos de salvado dentro de los niveles. El progreso, los objetos recogidos, las puertas abiertas y las opciones se guardan en este navegador. **Continuar** recupera la última aventura. El selector permite explorar cualquiera de las cinco épocas; entrar de nuevo por el selector inicia esa época desde su entrada.
-
-## Contenido
-
-- Los **cinco mapas TMX completos**: Prehistoria, Egipto, Piratas, Castillo y Futuro, con **1.680 objetos** definidos por los autores.
-- Gráficos, carteles, ilustraciones de historia, créditos, música y efectos originales.
-- **104 entradas de atlas** utilizables, recuperadas de 109 registros del ejecutable; **57 animaciones / 259 entradas de fotograma**, incluidos sus tiempos.
-- Movimiento y saltos con constantes recuperadas, escaleras, plataformas de una sola cara y plataformas móviles.
-- Monedas, vidas, mejoras, llaves, puertas, guardado y cambio de época.
-- Controladores para enemigos terrestres, aves, saltadores, pirañas, cañones, guillotinas, estalactitas y meteoritos.
-- Menú, introducción, selección de épocas, pausa, opciones de volumen/filtrado, ayuda, créditos y final.
-- Publicación estática con módulos empaquetados y nombre versionado; no requiere servidor de aplicación.
-
-**Estado:** versión jugable en desarrollo. Los recursos y las definiciones de animación proceden del original; parte de la física de contacto, la IA, la cámara y la interfaz siguen siendo reconstrucciones. Las pruebas verifican entradas de los cinco mapas y mecánicas mediante situaciones controladas, además de marcha/salto con teclado y movimiento táctil reales. Todavía no certifican una campaña completa recorrida de manera natural ni equivalencia exacta con Windows. [Detalle de fidelidad](docs/status.md).
+Vascolet mejora el salto; Cereales habilita/mejora el doble salto. Las puertas consumen las llaves de su color. Los puntos de salvado permiten reanudar desde la época correspondiente. Las opciones originales separan música y efectos y permiten pantalla completa y estirar la imagen.
 
 ## Desarrollo
 
@@ -49,38 +52,22 @@ npm run build
 npm run test:browser -- --built
 ```
 
-Las pruebas de navegador usan Edge/Chrome, un Chromium ya descargado por Playwright, o la ruta `BROWSER_EXECUTABLE`. Para instalar un navegador de pruebas en una máquina nueva:
+Las pruebas usan Chrome/Edge, Chromium de Playwright o `BROWSER_EXECUTABLE`. Para preparar un navegador de pruebas:
 
 ```sh
 node node_modules/playwright-core/cli.js install chromium
 ```
 
-Para servir el artefacto publicable: `npm run serve -- --built`. La carpeta `_site/` es el sitio estático. El workflow de GitHub Actions ejecuta las pruebas y despliega GitHub Pages.
+`_site/` es el sitio publicable; GitHub Actions verifica y despliega GitHub Pages.
 
-## Estructura
+Para regenerar capturas y comparaciones con una copia local del original en `../Vascolet1/`, consultar [el procedimiento](docs/reverse-engineering.md). `npm run compare:native` genera las vistas comparativas y `npm run compare:scenes` contrasta las 434 capturas locales.
 
-```text
-assets/                   recursos originales y manifiestos recuperados
-js/tmx.js                 TMX base64 little-endian, propiedades y textos
-js/assets.js              carga y reproducción de atlas/animaciones
-js/physics.js             colisiones, plataformas, escaleras y constantes
-js/game.js                campaña, jugador, objetos y enemigos
-js/render.js              Canvas, pantallas de 16 × 12 tiles y HUD
-js/main.js                estados, menús, pausa y arranque
-js/input.js audio.js save.js
-analysis/                 inventarios, hashes y evidencias de recuperación
-tools/                    extracción reproducible, Ghidra y pruebas
-docs/                     método, procedencia y estado de fidelidad
-```
+## Estado
 
-## Procedencia
+La presentación y geometría se contrastaron con el original. **Todavía falta certificar un recorrido natural completo y equivalencia temporal de toda la IA, contactos, plataformas y transiciones.** Las pruebas de mecánicas utilizan situaciones controladas y lo declaran. [Detalle de lo verificado y lo pendiente](docs/status.md).
 
-Se tomó como referencia **el método** de [Vascolet 4 web](https://github.com/frajusu/vascolet-4-web/): recursos originales + análisis del binario + implementación web comprobable. Este es un proyecto independiente.
+## Créditos
 
-La extracción de atlas usa emulación acotada de los constructores de recursos, interceptando todas las llamadas. Las constantes y animaciones conservan direcciones de procedencia. No se distribuye el ejecutable de Windows ni hace falta para jugar el port. [Cómo repetir el análisis con tu copia](docs/reverse-engineering.md).
+El juego original fue desarrollado por **Batoví Games Studio**. Vascolet, personajes, marcas, mapas, imágenes, música y demás recursos pertenecen a sus respectivos titulares. Se conservan los créditos originales dentro del juego.
 
-## Créditos y licencia
-
-**Vascolet: La máquina del tiempo**, sus personajes, marcas, gráficos, mapas, música y demás recursos pertenecen a sus respectivos titulares; el juego original fue desarrollado por **Batoví Games Studio**. Se conservan sus créditos originales dentro del juego.
-
-El código nuevo de este port se publica bajo MIT, según `LICENSE`. Esa licencia no concede derechos sobre los recursos ni las marcas originales. Port de preservación y homenaje, no afiliado a Batoví ni a Nestlé.
+El código nuevo del port se publica bajo MIT (`LICENSE`); esa licencia excluye los recursos y marcas originales. Proyecto no oficial de preservación, no afiliado a Batoví ni a Nestlé.

@@ -1,0 +1,92 @@
+[
+  {
+    "image": "assets/lang/images/seleccionar_nivel/boton_prehistoria.png",
+    "card": {
+      "x": 40,
+      "y": 195,
+      "w": 220,
+      "h": 540
+    },
+    "hero": {
+      "sx": 440,
+      "sy": 9,
+      "w": 248,
+      "h": 531,
+      "x": 15.0,
+      "y": 207.0
+    },
+    "matchingMSE": 295.9914975460932
+  },
+  {
+    "image": "assets/lang/images/seleccionar_nivel/boton_egipto.png",
+    "card": {
+      "x": 265,
+      "y": 195,
+      "w": 220,
+      "h": 540
+    },
+    "hero": {
+      "sx": 440,
+      "sy": 4,
+      "w": 232,
+      "h": 536,
+      "x": 255.0,
+      "y": 208.5
+    },
+    "matchingMSE": 365.0955060802135
+  },
+  {
+    "image": "assets/lang/images/seleccionar_nivel/boton_castillo.png",
+    "card": {
+      "x": 490,
+      "y": 195,
+      "w": 220,
+      "h": 540
+    },
+    "hero": {
+      "sx": 445,
+      "sy": 3,
+      "w": 195,
+      "h": 617,
+      "x": 496.5,
+      "y": 123.0
+    },
+    "matchingMSE": 961.7182370040972
+  },
+  {
+    "image": "assets/lang/images/seleccionar_nivel/boton_piratas.png",
+    "card": {
+      "x": 715,
+      "y": 195,
+      "w": 220,
+      "h": 540
+    },
+    "hero": {
+      "sx": 440,
+      "sy": 1,
+      "w": 254,
+      "h": 439,
+      "x": 690.0,
+      "y": 297.0
+    },
+    "matchingMSE": 545.921000434257
+  },
+  {
+    "image": "assets/lang/images/seleccionar_nivel/boton_futuro.png",
+    "card": {
+      "x": 940,
+      "y": 195,
+      "w": 220,
+      "h": 540
+    },
+    "hero": {
+      "sx": 441,
+      "sy": 7,
+      "w": 258,
+      "h": 393,
+      "x": 916.5,
+      "y": 295.5
+    },
+    "matchingMSE": 396.499676036693
+  }
+]

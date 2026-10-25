@@ -10,7 +10,7 @@ def props(e):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--source', type=Path, default=ROOT.parent/'vascolet1-analisis'/'extraido')
+    ap.add_argument('--source', type=Path, default=ROOT.parent/'Vascolet1')
     args = ap.parse_args()
     source = args.source
     (ROOT/'analysis').mkdir(exist_ok=True)
