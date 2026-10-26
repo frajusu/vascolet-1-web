@@ -1,0 +1,131 @@
+{
+  "binarySha256": "7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71",
+  "effects": [
+    {
+      "key": "CANNON",
+      "path": "assets/audio/fx/cannon.ogg",
+      "gain": 1.0,
+      "source": "0x41d482"
+    },
+    {
+      "key": "DEATH_1",
+      "path": "assets/audio/fx/death_1.ogg",
+      "gain": 0.800000011920929,
+      "source": "0x41d534"
+    },
+    {
+      "key": "DEATH_2",
+      "path": "assets/audio/fx/death_2.ogg",
+      "gain": 0.800000011920929,
+      "source": "0x41d5e1"
+    },
+    {
+      "key": "DOOR",
+      "path": "assets/audio/fx/door.ogg",
+      "gain": 1.0,
+      "source": "0x41d68a"
+    },
+    {
+      "key": "EXPLOSION",
+      "path": "assets/audio/fx/explosion.ogg",
+      "gain": 1.0,
+      "source": "0x41d730"
+    },
+    {
+      "key": "LIVES",
+      "path": "assets/audio/fx/extra_life.ogg",
+      "gain": 0.6000000238418579,
+      "source": "0x41d7de"
+    },
+    {
+      "key": "STEP_1",
+      "path": "assets/audio/fx/footstep_1.ogg",
+      "gain": 1.0,
+      "source": "0x41d888"
+    },
+    {
+      "key": "STEP_2",
+      "path": "assets/audio/fx/footstep_2.ogg",
+      "gain": 1.0,
+      "source": "0x41d932"
+    },
+    {
+      "key": "D_STEP_1",
+      "path": "assets/audio/fx/footstep_dino_1.ogg",
+      "gain": 1.0,
+      "source": "0x41d9db"
+    },
+    {
+      "key": "D_STEP_2",
+      "path": "assets/audio/fx/footstep_dino_2.ogg",
+      "gain": 1.0,
+      "source": "0x41da84"
+    },
+    {
+      "key": "ITEM",
+      "path": "assets/audio/fx/item.ogg",
+      "gain": 0.6000000238418579,
+      "source": "0x41db32"
+    },
+    {
+      "key": "JUMP_ENEMY",
+      "path": "assets/audio/fx/jump.ogg",
+      "gain": 1.0,
+      "source": "0x41dbdc"
+    },
+    {
+      "key": "JUMP",
+      "path": "assets/audio/fx/jump_vascolet.ogg",
+      "gain": 1.0,
+      "source": "0x41dc65"
+    },
+    {
+      "key": "LASER",
+      "path": "assets/audio/fx/laser.ogg",
+      "gain": 1.0,
+      "source": "0x41dceb"
+    },
+    {
+      "key": "POWERUP",
+      "path": "assets/audio/fx/powerup.ogg",
+      "gain": 0.4000000059604645,
+      "source": "0x41dd75"
+    },
+    {
+      "key": "STAIR_1",
+      "path": "assets/audio/fx/stair_1.ogg",
+      "gain": 0.5,
+      "source": "0x41ddff"
+    },
+    {
+      "key": "STAIR_2",
+      "path": "assets/audio/fx/stair_2.ogg",
+      "gain": 0.5,
+      "source": "0x41de89"
+    },
+    {
+      "key": "MICROWAVE",
+      "path": "assets/audio/fx/microwave.ogg",
+      "gain": 1.0,
+      "source": "0x41df0f"
+    },
+    {
+      "key": "GUILLOTINE",
+      "path": "assets/audio/fx/guillotine.ogg",
+      "gain": 0.6000000238418579,
+      "source": "0x41df99"
+    },
+    {
+      "key": "P_STEP",
+      "path": "assets/audio/fx/skate.ogg",
+      "gain": 1.0,
+      "source": "0x41e01f"
+    },
+    {
+      "key": "SHOOT",
+      "path": "assets/audio/fx/statue_shot.ogg",
+      "gain": 1.0,
+      "source": "0x41e0a5"
+    }
+  ]
+}

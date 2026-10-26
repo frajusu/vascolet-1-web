@@ -13,6 +13,9 @@ const url=await new Promise((resolve,reject)=>{child.once('error',reject);child.
 const report={ok:false,scope:'Actual keyboard/UI checks and controlled gameplay fixtures; native PNG visual regressions. Not a natural full-campaign completion or a proof of exact enemy AI.',steps:[],errors:[],nativeComparisons:[]};let browser;
 async function step(name,fn){await fn();report.steps.push(name);console.log('PASS',name);}
 async function reference(page,name,file,limit,rectangle=null){
+  const states={menu:['menu','menu.jpg'],options:['options','menu.jpg'],help:['image','ayuda.jpg'],credits:['image','creditos.jpg'],selector:['levels','select-5.png']};
+  const expected=states[name]??['playing',null];
+  await page.waitForFunction(expected=>{const draw=window.__vascolet?.lastDraw;return draw?.state===expected[0]&&(!expected[1]||draw.page.endsWith(expected[1]));},expected);
   const base64=(await readFile(path.join(root,'tools/fixtures/native',file))).toString('base64');
   const result=await page.evaluate(async({base64,rectangle})=>{
     const im=new Image();im.src='data:image/png;base64,'+base64;await im.decode();const c=new OffscreenCanvas(800,600),ctx=c.getContext('2d');ctx.drawImage(im,0,0);
@@ -51,10 +54,43 @@ try{
     assert.ok(await page.evaluate(()=>window.__vascolet.world.level===0));
   });
   await step('real keyboard walking/jumping and original pause/exit confirmation',async()=>{
+    const footsteps=await page.evaluate(()=>window.__vascolet.Audio.stats.byKey.D_STEP_2??0);
     const before=await page.evaluate(()=>window.__vascolet.snapshot());await page.keyboard.down('ArrowRight');await page.waitForTimeout(500);await page.keyboard.up('ArrowRight');await page.waitForTimeout(100);const moved=await page.evaluate(()=>window.__vascolet.snapshot());assert.ok(moved.player.x>before.player.x+70);
+    assert.ok(await page.evaluate(()=>window.__vascolet.Audio.stats.byKey.D_STEP_2??0)>footsteps,'Walking should produce the native dinosaur footstep');
     await page.keyboard.press('Space');await page.waitForTimeout(180);const jumped=await page.evaluate(()=>window.__vascolet.snapshot());assert.ok(jumped.player.y<moved.player.y-35);
     await page.keyboard.press('Escape');await page.waitForFunction(()=>window.__vascolet.state==='paused');assert.deepEqual(await page.locator('#controls button').allTextContents(),['Jugar','Salir']);await page.locator('#game').screenshot({path:path.join(output,'pause.png')});
     await page.getByRole('button',{name:'Salir',exact:true}).click();assert.deepEqual(await page.locator('#controls button').allTextContents(),['Sí','No']);await page.getByRole('button',{name:'No',exact:true}).click();await page.getByRole('button',{name:'Jugar',exact:true}).click();
+  });
+  await step('predecoded effects really produce an audio signal, without media-element startup delay',async()=>{
+    const loaded=await page.evaluate(()=>({count:window.__vascolet.Audio.buffers.size,state:window.__vascolet.Audio.ctx?.state,errors:[...window.__vascolet.Audio.errors]}));assert.equal(loaded.count,21);assert.equal(loaded.state,'running');assert.deepEqual(loaded.errors,[]);
+    await page.evaluate(()=>{const a=window.__vascolet.Audio,probe=a.ctx.createAnalyser();probe.fftSize=2048;a.master.disconnect(a.ctx.destination);a.master.connect(probe);probe.connect(a.ctx.destination);window.__audioProbe=probe;a.effect('ITEM');});
+    await page.waitForFunction(()=>{const data=new Float32Array(2048);window.__audioProbe.getFloatTimeDomainData(data);return data.some(x=>Math.abs(x)>1e-5);});
+    report.audioSignal=await page.evaluate(()=>{const a=window.__vascolet.Audio,probe=window.__audioProbe,data=new Float32Array(2048);probe.getFloatTimeDomainData(data);const rms=Math.sqrt(data.reduce((n,x)=>n+x*x,0)/data.length);a.master.disconnect(probe);probe.disconnect();a.master.connect(a.ctx.destination);delete window.__audioProbe;return {rms,buffers:a.buffers.size,started:a.stats.started};});assert.ok(report.audioSignal.rms>0);
+  });
+  await step('POWER uses additive blending: every frame keeps black texels invisible and preserves canvas state',async()=>{
+    const result=await page.evaluate(async()=>{
+      const {drawSprite}=window.__vascolet;const canvas=new OffscreenCanvas(104,162),ctx=canvas.getContext('2d'),background=[48,80,112];let darkened=0,brighter=0,unchanged=0;
+      for(let frame=0;frame<30;frame++){
+        ctx.fillStyle='rgb(48,80,112)';ctx.fillRect(0,0,104,162);drawSprite(ctx,'POWER',0,0,{frame,origin:false});
+        if(ctx.globalCompositeOperation!=='source-over')throw Error('Blend state leaked to the next sprite');const pixels=ctx.getImageData(0,0,104,162).data;
+        for(let i=0;i<pixels.length;i+=4){let same=true;for(let c=0;c<3;c++){if(pixels[i+c]<background[c])darkened++;if(pixels[i+c]>background[c]+5)brighter++;if(pixels[i+c]!==background[c])same=false;}if(same)unchanged++;}
+      }
+      return {darkened,brighter,unchanged};
+    });report.particles=result;assert.equal(result.darkened,0);assert.ok(result.brighter>1000);assert.ok(result.unchanged>10000);
+  });
+  await step('pickup sounds fire once; intermediate render frames interpolate without extra physics or sound',async()=>{
+    await page.evaluate(async()=>{const t=window.__vascolet;t.freeze();await t.loadLevel(0);t.step(180);});
+    const result=await page.evaluate(()=>{
+      const t=window.__vascolet,w=t.world,b=w.player,a=t.Audio;b.invulnerable=1000;const coin=w.items.find(i=>i.asset==='COIN'),beforeItem=a.stats.byKey.ITEM??0;t.place(coin.x,coin.y);t.step(2);const itemSounds=(a.stats.byKey.ITEM??0)-beforeItem;
+      t.step(65);const powerExpired=!w.effects.some(e=>e.asset==='POWER');t.place(1318,3481.51);Object.assign(b,{grounded:true,animation:'',animTime:0});
+      const beforeD1=a.stats.byKey.D_STEP_1??0,beforeD2=a.stats.byKey.D_STEP_2??0;t.step(72,['ArrowRight']);const dinoSteps=[(a.stats.byKey.D_STEP_1??0)-beforeD1,(a.stats.byKey.D_STEP_2??0)-beforeD2];
+      t.place(1318,3481.51);Object.assign(b,{grounded:true,animation:'',animTime:0});t.step(2,['ArrowRight']);
+      const snapshot=JSON.stringify(t.snapshot()),started=a.stats.started,ctx=document.querySelector('#game').getContext('2d');
+      const p0=t.renderFraction(0),pixels0=ctx.getImageData(0,0,800,600).data,pm=t.renderFraction(.5),pixelsM=ctx.getImageData(0,0,800,600).data,p1=t.renderFraction(1);let changed=0;
+      for(let i=0;i<pixels0.length;i+=4)if(pixels0[i]!==pixelsM[i]||pixels0[i+1]!==pixelsM[i+1]||pixels0[i+2]!==pixelsM[i+2])changed++;
+      for(let i=0;i<20;i++)t.renderFraction(i/20);
+      return {itemSounds,powerExpired,dinoSteps,p0,pm,p1,changed,physicsUnchanged:snapshot===JSON.stringify(t.snapshot()),soundsUnchanged:started===a.stats.started};
+    });report.presentation=result;assert.equal(result.itemSounds,1);assert.ok(result.powerExpired);assert.deepEqual(result.dinoSteps,[1,1]);assert.ok(result.p0.x<result.pm.x&&result.pm.x<result.p1.x);assert.ok(result.changed>20);assert.ok(result.physicsUnchanged&&result.soundsUnchanged);
   });
   const names=['prehistory','egypt','castle','pirates','future'];
   for(let level=0;level<5;level++)await step(`${names[level]}: native geometry, upgrades, consumed keys, checkpoint, death arc and exit`,async()=>{

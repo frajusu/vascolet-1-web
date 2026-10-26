@@ -1,4 +1,6 @@
-# Correspondencia y verificación — 0.2
+# Correspondencia y verificación — 0.2.1
+
+La revisión 0.2.1 corrige mezcla/lifetime de partículas, carga y eventos de sonido e interpolación del render. [Procedencia y verificación específica](effects-audio-render.md).
 
 ## Correcciones sobre la primera versión
 
@@ -38,7 +40,7 @@ Resultados: `analysis/scene-comparison.json` y resumen `analysis/native-validati
 
 ### `npm test`
 
-Once grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, suelo/techo/plataformas/puertas, correspondencia de cada objeto nativo, integración y bordes de ventana, fuente/atlas UI y estados rasterizados, además de textos y guardados. También verifican que las diez capturas PNG requeridas por CI existan en el repositorio y conserven sus hashes.
+Veintidós grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, suelo/techo/plataformas/puertas, correspondencia de cada objeto nativo, integración y bordes de ventana, fuente/atlas UI y estados rasterizados, además de textos y guardados. También verifican las diez capturas PNG de CI, cadencias de 60/120/144 Hz, eventos de animación y reproducción/mute/reinicio de voces de audio.
 
 ### `npm run test:browser -- --built`
 
@@ -50,6 +52,7 @@ Once grupos verifican mapas, hashes, atlas, animaciones, constantes binarias, su
 - Reanudación del checkpoint desde su tarjeta de época tras recargar.
 - Página pequeña sin interfaz externa ni desbordamiento horizontal.
 - Sin errores JavaScript ni respuestas HTTP fallidas durante la prueba.
+- Señal de audio real del efecto decodificado, mezcla aditiva en todos los fotogramas de partículas y render interpolado sin efectos secundarios en física/audio.
 
 Los casos de objetos, puertas, peligros y salida son **fixtures controlados**, no una campaña recorrida por un bot. La interfaz de fixtures solo existe con `?test=1`.
 

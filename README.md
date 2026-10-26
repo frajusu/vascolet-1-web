@@ -6,6 +6,8 @@ Port web no oficial del juego de Batoví de 2010, en JavaScript y Canvas.
 
 La página muestra **solamente el juego sobre fondo negro**, como Vascolet 4 web. Menú, opciones, ayuda, créditos, selector, HUD, pausa y confirmación están dentro del juego y siguen las pantallas observadas del ejecutable Windows.
 
+**0.2.1:** partículas aditivas sin cuadrados negros, efectos de sonido predecodificados con sus volúmenes/eventos nativos y movimiento interpolado a la frecuencia de la pantalla, conservando física de 60 Hz. [Detalle y pruebas](docs/effects-audio-render.md).
+
 ![Windows original a la izquierda; port web a la derecha](docs/native-comparison.jpg)
 
 ## Correspondencia con Windows

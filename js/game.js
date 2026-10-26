@@ -4,6 +4,8 @@ import { PHYSICS,nativeMotion,moveBody,overlap,clamp,flagsAt,onLadder,hazardous 
 import { Input } from './input.js';
 import { Save } from './save.js';
 import { AudioSystem as Audio } from './audio.js';
+import {animationDuration} from './animation-timing.js';
+import {animationSounds,shotSound} from './sound-events.js';
 
 export const ERAS=[
   {id:'prehistory',name:'Prehistoria',intro:'intro_prehistoria',music:'prehistoria'},
@@ -54,6 +56,8 @@ export class World {
   resetPlayer(){this.player={...this.checkpoint,w:PHYSICS.width,h:PHYSICS.height,vx:0,vy:0,grounded:false,face:1,jumps:0,coyote:0,buffer:0,invulnerable:0,animation:'',animTime:0,climbing:false,drop:0};}
   persist(){if(!this.map||this.complete||this.lives<0)return;Save.data.run={level:this.level,lives:this.lives,score:this.score,counts:{...this.counts},checkpoint:{...this.checkpoint},consumed:[...this.consumed],doors:this.doors.filter(d=>d.open).map(d=>d.id)};Save.write();}
   animate(name){if(this.player.animation!==name){this.player.animation=name;this.player.animTime=0;}}
+  spawnEffect(asset,x,y){this.effects.push({asset,x,y,age:0,duration:animationDuration(Art.anims[asset])});}
+  enemyDeath(entity){Audio.effect('EXPLOSION');this.spawnEffect('ENEMY_DEATH',entity.x+entity.w/2,entity.y+entity.h/2);}
   addScore(points){const old=Math.floor(this.score/2000);this.score+=points;const gained=Math.floor(this.score/2000)-old;if(gained>0){this.lives+=gained;Audio.effect('extra_life');}}
   collect(item){
     if(this.consumed.has(item.id))return;this.consumed.add(item.id);
@@ -67,7 +71,7 @@ export class World {
         this.counts[key]=Math.min(4,this.counts[key]);Audio.effect('powerup');
       } else Audio.effect('item');
     }
-    this.effects.push({asset:'POWER',x:item.x+item.w/2,y:item.y+item.h,age:0});this.persist();
+    this.spawnEffect('POWER',item.x+item.w/2,item.y+item.h);this.persist();
   }
   finish(){if(this.complete)return;this.complete=true;this.exit={time:0,x:this.player.x+this.player.w/2,y:this.player.y+this.player.h,done:false};Save.data.completed=[...new Set([...Save.data.completed,this.level])];Save.data.bestCoins??=[0,0,0,0,0];Save.data.bestCoins[this.level]=Math.max(Save.data.bestCoins[this.level],this.items.filter(i=>i.asset==='COIN'&&this.consumed.has(i.id)).length);Save.data.run=null;Save.write();Audio.suspend();Audio.effect('microwave');}
   die(){if(this.death||this.complete||this.player.invulnerable>0)return;this.death={time:0,wait:1,x:this.player.x,y:this.player.y,vy:-800};Audio.suspend();Audio.effect('death_1');}
@@ -114,7 +118,7 @@ export class World {
   updateEnemies(dt){
     const player=this.player;
     for(const e of this.enemies){
-      if(e.dead||!this.inRoom(e))continue;e.age+=dt;e.activated=true;const p=e.props;
+      if(e.dead||!this.inRoom(e))continue;const oldAge=e.age;e.age+=dt;e.activated=true;const p=e.props;
       if(e.type==='Bird'){
         const duration=Math.max(.1,numeric(p,'pDuration',4)),t=(Math.sin(e.age*Math.PI*2/duration-Math.PI/2)+1)/2;
         const previous=e.x;e.x=e.baseX+numeric(p,'pxDelta',300)*t;e.y=e.baseY+numeric(p,'pyDelta',20)*Math.sin(e.age*Math.PI*2/duration);e.look=e.x<previous?-1:1;
@@ -124,15 +128,16 @@ export class World {
       }else if(e.type==='Guillotine'){
         const duration=Math.max(.1,numeric(p,'pDuration',.5)),wait=numeric(p,'pWait',1.7),phase=e.age%(duration*2+wait);
         e.y=e.baseY+numeric(p,'pyDelta',100)*(phase<duration?phase/duration:phase<duration+wait?1:1-(phase-duration-wait)/duration);
+        if(Math.floor((e.age-duration+1e-9)/(duration*2+wait))>Math.floor((oldAge-duration+1e-9)/(duration*2+wait)))Audio.effect('GUILLOTINE');
       }else if(e.type==='Stalactite'){
         if(!e.falling&&Math.abs(player.x-e.x)<numeric(p,'pxOffset',100)&&player.y>e.y)e.falling=true;
-        if(e.falling){e.vy+=numeric(p,'pyAccel',800)*dt;moveBody(this.map,e,dt);if(e.grounded){e.dead=true;this.effects.push({asset:'ENEMY_DEATH',x:e.x,y:e.y,age:0});}}
+        if(e.falling){e.vy+=numeric(p,'pyAccel',800)*dt;moveBody(this.map,e,dt);if(e.grounded){e.dead=true;this.enemyDeath(e);}}
       }else if(e.type==='Thrower'){
         e.timer-=dt;if(e.timer<=0){e.timer=numeric(p,'pMinTime',2)+(numeric(p,'pMaxTime',3)-numeric(p,'pMinTime',2))*.5;
           const vx=numeric(p,'pxVel',350),vy=numeric(p,'pyVel');e.look=vx<0?-1:1;
-          this.shots.push({x:e.x+e.w/2+numeric(p,'pxOffset'),y:e.y+e.h+numeric(p,'pyOffset'),w:20,h:20,vx,vy,age:0,asset:p.pBulletAsset});Audio.effect(this.level===4?'laser':'cannon');}
+          this.shots.push({x:e.x+e.w/2+numeric(p,'pxOffset'),y:e.y+e.h+numeric(p,'pyOffset'),w:20,h:20,vx,vy,age:0,asset:p.pBulletAsset});Audio.effect(shotSound(e.asset,p.pBulletAsset));}
       }else {
-        if(e.type==='Jumper'&&e.grounded)e.vy=-Math.max(350,Math.abs(numeric(p,'pyVel',400)));
+        if(e.type==='Jumper'&&e.grounded){e.vy=-Math.max(350,Math.abs(numeric(p,'pyVel',400)));Audio.effect('JUMP_ENEMY');}
         e.vy+=PHYSICS.gravity*dt;const vx=e.vx;moveBody(this.map,e,dt,{doors:this.doors});
         if(e.hitX)e.vx=-vx;
         if(e.grounded&&truth(p,'pCollidesFloor')&&Math.abs(e.vx)>0){
@@ -144,7 +149,7 @@ export class World {
       if(e.hidden||!overlap(player,e)||this.death)continue;
       const canStomp=['Enemy','Jumper','Bird'].includes(e.type)&&!['STATIC_SNAKE','SNAKE_ROBOT','BIG_ROBOT'].includes(e.asset);
       if(canStomp&&player.vy>0&&this.previousPlayerY+player.h<=e.y+Math.max(20,player.vy*dt+5)){
-        e.dead=true;player.vy=-380;this.addScore(100);Audio.effect('death_2');this.effects.push({asset:'ENEMY_DEATH',x:e.x+e.w/2,y:e.y+e.h,age:0});
+        e.dead=true;player.vy=-380;this.addScore(100);this.enemyDeath(e);
       }else this.die();
     }
     const roomX=Math.floor((player.x+player.w/2)/(ROOM_COLUMNS*this.map.tw)),roomY=Math.floor((player.y+player.h-1)/(ROOM_ROWS*this.map.th));
@@ -157,7 +162,7 @@ export class World {
     if(!this.map)return;
     if(this.complete){if(this.exit&&!this.exit.done){this.exit.time+=dt;if(this.exit.time>=1){this.exit.done=true;this.events.push({type:'complete',level:this.level});}}return;}
     this.time+=dt;this.roomTime=(this.roomTime??0)+dt;
-    for(const e of this.effects)e.age+=dt;this.effects=this.effects.filter(e=>e.age<1.2);
+    for(const e of this.effects)e.age+=dt;this.effects=this.effects.filter(e=>e.age<e.duration);
     if(this.death){
       this.death.time+=dt;
       if(this.death.wait>0){this.death.wait-=dt;if(this.death.wait<=0)Audio.effect('death_2');return;}
@@ -165,7 +170,7 @@ export class World {
       if(this.death.y+this.player.h>this.camera.y+VIEW_HEIGHT+500){if(this.lives===0){this.events.push({type:'gameover'});this.complete=true;Save.data.run=null;Save.write();}else{this.lives--;this.resetPlayer();this.death=null;this.updateCamera(1);this.persist();Audio.resume();}}
       return;
     }
-    const b=this.player;this.previousPlayerY=b.y;b.invulnerable=Math.max(0,b.invulnerable-dt);b.drop=Math.max(0,b.drop-dt);b.animTime+=dt;
+    const b=this.player;this.previousPlayerY=b.y;b.invulnerable=Math.max(0,b.invulnerable-dt);b.drop=Math.max(0,b.drop-dt);
     const motion=nativeMotion(b,dt,b.climbing?0:PHYSICS.gravity);b.vx=motion.vx;b.vy=motion.vy;
     b.coyote=b.grounded?.09:Math.max(0,b.coyote-dt);b.buffer=Math.max(0,b.buffer-dt);
     b.buffer=input.tap('Space','KeyZ')?1:0;
@@ -178,15 +183,15 @@ export class World {
     if(b.grounded){b.jumps=0;}
     if(b.buffer>0){
       if(dy>0&&b.grounded){b.drop=.22;b.grounded=false;b.y+=3;b.buffer=0;}
-      else if(b.grounded||b.climbing){b.vy=-PHYSICS.jumps[clamp(this.counts.VASCOLETS,0,4)];b.jumps=1;b.climbing=false;b.grounded=false;b.airSteer=dx?10:20;b.coyote=0;b.buffer=0;Audio.effect('jump');}
-      else if(this.counts.CEREALS>0&&b.jumps<2){b.vy=-PHYSICS.doubleJumps[clamp(this.counts.CEREALS,0,4)];b.jumps=2;b.climbing=false;b.airSteer=dx?10:20;b.buffer=0;Audio.effect('jump_vascolet');}
+      else if(b.grounded||b.climbing){b.vy=-PHYSICS.jumps[clamp(this.counts.VASCOLETS,0,4)];b.jumps=1;b.climbing=false;b.grounded=false;b.airSteer=dx?10:20;b.coyote=0;b.buffer=0;Audio.effect('JUMP');}
+      else if(this.counts.CEREALS>0&&b.jumps<2){b.vy=-PHYSICS.doubleJumps[clamp(this.counts.CEREALS,0,4)];b.jumps=2;b.climbing=false;b.airSteer=dx?10:20;b.buffer=0;Audio.effect('JUMP');}
     }
     b.vx=b.climbing?0:b.grounded?dx*PHYSICS.speed:clamp(b.vx+dx*(b.airSteer??20),-PHYSICS.speed,PHYSICS.speed);
     this.updatePlatforms(dt);
     for(const d of this.doors){
       if(!this.inRoom(d))continue;
       if(!d.open&&overlap({...b,x:b.x-10,w:b.w+20},d)){
-        if((this.counts[d.required]??0)>=d.count){d.open=true;this.counts[d.required]-=d.count;Audio.effect('door');this.persist();}
+        if((this.counts[d.required]??0)>=d.count){d.open=true;this.counts[d.required]-=d.count;Audio.effect('EXPLOSION');this.persist();}
       }
       if(d.open)d.progress=Math.min(1,d.progress+dt*2);
     }
@@ -203,6 +208,9 @@ export class World {
     this.updateEnemies(dt);
     const prefix=this.level===0?'D_':this.level===4?'P_':'';
     if(b.climbing)this.animate('CLIMB');else if(!b.grounded)this.animate(prefix+'JUMP');else if(dx)this.animate(prefix+'WALK');else this.animate('');
+    const from=b.animTime;b.animTime+=(b.climbing?-dy:1)*dt;
+    const audible=b.climbing?dy!==0:b.grounded&&dx!==0&&!b.hitX;
+    if(audible)for(const sound of animationSounds(b.animation,from,b.animTime,Art.anims))Audio.effect(sound);
     this.updateCamera(dt);
   }
 }

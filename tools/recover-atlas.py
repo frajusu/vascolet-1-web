@@ -15,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--exe',type=Path,default=ROOT.parent/'Vascolet1/Vascolet.exe')
     ap.add_argument('--index',type=Path,default=ROOT.parent/'vascolet1-analisis/descompilado/funciones.tsv')
+    ap.add_argument('--audio-only',action='store_true')
     a=ap.parse_args(); pe=pefile.PE(str(a.exe)); base=pe.OPTIONAL_HEADER.ImageBase
     digest=hashlib.sha256(a.exe.read_bytes()).hexdigest()
     if digest!='7f4b9ff4d18846214a33793989ca15171e0f56fa39094596b24fd646f587fd71':
@@ -36,7 +37,7 @@ def main():
         'nativeViewportWidth':{'address':'004eef78','value':f32(0x4eef78)},
         'nativeViewportHeight':{'address':'004eee64','value':f32(0x4eee64)},
     }
-    (ROOT/'analysis/native-constants.json').write_text(json.dumps(constants,indent=2),encoding='utf8')
+    if not a.audio_only:(ROOT/'analysis/native-constants.json').write_text(json.dumps(constants,indent=2),encoding='utf8')
     funcs=[]
     for line in a.index.read_text().splitlines()[1:]:
         addr,name,size=line.split('\t'); funcs.append((int(addr,16),int(size)))
@@ -48,11 +49,14 @@ def main():
             rets=[int(ins.op_str,0) if ins.op_str else 0 for ins in cs.disasm(image[addr-base:end-base],addr) if ins.mnemonic=='ret']
             cleanups[addr]=rets[-1] if rets else 0
         return cleanups[addr]
-    result={}; animation_result={}
-    for start,label in [(0x42cd10,'player'),(0x438be0,'enemies'),(0x418100,'items'),(0x419b20,'elements'),(0x42b3c0,'playerAnimations'),(0x434760,'enemyAnimations')]:
+    result={}; animation_result={}; audio=[]
+    jobs=[] if a.audio_only else [(0x42cd10,'player'),(0x438be0,'enemies'),(0x418100,'items'),(0x419b20,'elements'),(0x42b3c0,'playerAnimations'),(0x434760,'enemyAnimations')]
+    jobs.append((0x41d3f0,'audio'))
+    for start,label in jobs:
         u=Uc(UC_ARCH_X86,UC_MODE_32); u.mem_map(0,0x10000); u.mem_map(base,0x200000); u.mem_write(base,image)
         u.mem_map(0x1000000,0x200000); u.mem_map(0x2000000,0x400000)
         u.reg_write(UC_X86_REG_ESP,0x11f0000); u.reg_write(UC_X86_REG_ECX,0x2000000); u.reg_write(UC_X86_REG_EDI,0x2000000)
+        u.mem_write(0x11f0004,struct.pack('<II',0x2000000,0x2000000))
         heap=[0x2100000]; strings={}; records=[]; calls={}; animations={}; frames={}
         def alloc(n=256):
             r=heap[0]; heap[0]+=(n+15)&~15; return r
@@ -118,15 +122,20 @@ def main():
             elif target==0x4594c0 and esi in animations:
                 desc=dword(esp); raw=bytes(uc.mem_read(desc,48)); fields=struct.unpack('<12I',raw)
                 animations[esi]['frames'].append(dict(frames.get(fields[0],{'asset':'?','frame':0}),duration=fields[9])); pop=4
+            elif target==0x41d230:
+                key=string(uc.reg_read(UC_X86_REG_EDX));path=string(dword(esp));gain=struct.unpack('<f',uc.mem_read(esp+4,4))[0]
+                audio.append({'key':key,'path':path,'gain':gain,'source':hex(address)});pop=8
             uc.reg_write(UC_X86_REG_EAX,ret); uc.reg_write(UC_X86_REG_ESP,esp+pop); uc.reg_write(UC_X86_REG_EIP,address+size)
         u.hook_add(UC_HOOK_CODE,hook)
         try:u.emu_start(start,0,count=2000000)
         except Exception as exc:raise RuntimeError(f'{label} at {u.reg_read(UC_X86_REG_EIP):x}: {exc}') from exc
         if bytes(u.mem_read(u.reg_read(UC_X86_REG_EIP),1)) not in [b'\xc2',b'\xc3']:
             raise RuntimeError(f'{label}: constructor did not reach its return')
-        result[label]=records
+        if label!='audio':result[label]=records
         if animations: animation_result[label]=list(animations.values())
         print(label,len(records),'calls',calls)
+    (ROOT/'assets/data/audio.json').write_text(json.dumps({'binarySha256':digest,'effects':audio},indent=2),encoding='utf8')
+    if a.audio_only:return
     (ROOT/'analysis/atlas-evidence.json').write_text(json.dumps(result,indent=2,ensure_ascii=False,allow_nan=False),encoding='utf8')
     (ROOT/'analysis/animation-evidence.json').write_text(json.dumps(animation_result,indent=2,ensure_ascii=False),encoding='utf8')
     atlas={}

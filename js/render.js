@@ -21,7 +21,8 @@ function tiles(ctx,w){
   roomLayers.set(m,{key,canvas:buffer});output.drawImage(buffer,0,0,VIEW_WIDTH,VIEW_HEIGHT,0,0,VIEW_WIDTH,VIEW_HEIGHT);
 }
 function visible(w,e){return w.inRoom(e)&&e.x+e.w>w.camera.x-250&&e.x<w.camera.x+VIEW_WIDTH+250&&e.y+e.h>w.camera.y-350&&e.y<w.camera.y+VIEW_HEIGHT+350;}
-function entity(ctx,w,e,options={}){drawSprite(ctx,e.asset,e.x+e.w/2-w.camera.x,e.y+e.h-w.camera.y,options);}
+const value=(view,actor,key)=>view?view.value(actor,key):actor[key];
+function entity(ctx,w,e,options={},view=null){drawSprite(ctx,e.asset,value(view,e,'x')+e.w/2-w.camera.x,value(view,e,'y')+e.h-w.camera.y,options);}
 export function drawHUD(ctx,w){
   ctx.save();ctx.scale(2/3,2/3);
   uiFrame(ctx,'HUD_BACKGROUND',1,0,0);uiFrame(ctx,'HUD_BACKGROUND',1,600,0);
@@ -36,32 +37,32 @@ export function drawHUD(ctx,w){
   }
   ctx.restore();
 }
-export function renderWorld(ctx,w){
+export function renderWorld(ctx,w,view=null){
   ctx.imageSmoothingEnabled=Save.data.settings.smooth;ctx.fillStyle='#000';ctx.fillRect(0,0,800,600);
   ctx.save();ctx.scale(800/VIEW_WIDTH,600/VIEW_HEIGHT);tiles(ctx,w);
   for(const s of w.signs)if(visible(w,s))drawSprite(ctx,'SIGN',s.x+s.w/2-w.camera.x,s.y+s.h-w.camera.y);
   for(const s of w.saves)if(visible(w,s))drawSprite(ctx,'SAVE',s.x+s.w/2-w.camera.x,s.y+s.h-w.camera.y);
   for(const d of w.doors)if(visible(w,d)){
-    const a=Art.atlas[d.asset],im=image(a.image),h=Math.max(0,d.h*(1-d.progress));
+    const a=Art.atlas[d.asset],im=image(a.image),h=Math.max(0,d.h*(1-value(view,d,'progress')));
     if(h)ctx.drawImage(im,a.x,a.y+a.h-h,a.w,h,d.x+d.w/2-a.ax-w.camera.x,d.y+d.h-h-w.camera.y,a.w,h);
   }
-  for(const p of w.platforms)if(visible(w,p))entity(ctx,w,p);
+  for(const p of w.platforms)if(visible(w,p))entity(ctx,w,p,{},view);
   for(const i of w.items)if(!w.consumed.has(i.id)&&visible(w,i)){
-    const bob=-3.5*(1-Math.cos((w.roomTime??w.time)*Math.PI*2/3));entity(ctx,w,{...i,y:i.y+bob});
+    const roomTime=view?view.clock('roomTime'):(w.roomTime??w.time),bob=-3.5*(1-Math.cos(roomTime*Math.PI*2/3));entity(ctx,w,{...i,y:i.y+bob});
   }
   for(const e of w.enemies)if(!e.dead&&!e.hidden&&visible(w,e)){
     const key=e.type==='Piranha'?e.asset+(e.vy<0?'_UP':'_DOWN'):(e.props.pAnim??e.asset);
-    if(Art.anims[key])drawAnimation(ctx,key,e.age,e.x+e.w/2-w.camera.x,e.y+e.h-w.camera.y,{flip:e.look<0});else entity(ctx,w,e,{flip:e.look<0});
+    if(Art.anims[key])drawAnimation(ctx,key,value(view,e,'age'),value(view,e,'x')+e.w/2-w.camera.x,value(view,e,'y')+e.h-w.camera.y,{flip:e.look<0});else entity(ctx,w,e,{flip:e.look<0},view);
   }
-  for(const shot of w.shots)if(visible(w,shot))entity(ctx,w,shot,{flip:shot.vx<0});
+  for(const shot of w.shots)if(visible(w,shot))entity(ctx,w,shot,{flip:shot.vx<0},view);
   const b=w.player,prefix=w.level===0?'D_':w.level===4?'P_':'';
   if(!w.death&&!w.exit){
-    if(b.animation)drawAnimation(ctx,b.animation,b.climbing&&!b.vy?0:b.animTime,b.x+b.w/2-w.camera.x,b.y+b.h-w.camera.y,{flip:b.face<0});
-    else drawSprite(ctx,prefix+'VASCOLET',b.x+b.w/2-w.camera.x,b.y+b.h-w.camera.y,{flip:b.face<0});
+    if(b.animation)drawAnimation(ctx,b.animation,value(view,b,'animTime'),value(view,b,'x')+b.w/2-w.camera.x,value(view,b,'y')+b.h-w.camera.y,{flip:b.face<0});
+    else drawSprite(ctx,prefix+'VASCOLET',value(view,b,'x')+b.w/2-w.camera.x,value(view,b,'y')+b.h-w.camera.y,{flip:b.face<0});
   }else if(w.death){
-    drawSprite(ctx,prefix+'VASCOLET_DEAD',w.death.x+b.w/2-w.camera.x,w.death.y+b.h-w.camera.y);
+    drawSprite(ctx,prefix+'VASCOLET_DEAD',value(view,w.death,'x')+b.w/2-w.camera.x,value(view,w.death,'y')+b.h-w.camera.y);
   }
-  if(w.exit&&w.exit.time<1)drawAnimation(ctx,'POWER',w.exit.time,w.exit.x-w.camera.x,w.exit.y-w.camera.y);
-  for(const e of w.effects)drawAnimation(ctx,e.asset,e.age,e.x-w.camera.x,e.y-w.camera.y);
+  if(w.exit&&w.exit.time<1)drawAnimation(ctx,'POWER',value(view,w.exit,'time'),w.exit.x-w.camera.x,w.exit.y-w.camera.y);
+  for(const e of w.effects)drawAnimation(ctx,e.asset,value(view,e,'age'),value(view,e,'x')-w.camera.x,value(view,e,'y')-w.camera.y);
   ctx.restore();drawHUD(ctx,w);
 }

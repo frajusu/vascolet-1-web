@@ -6,6 +6,8 @@ La página es solamente Canvas sobre negro. La interfaz corresponde al juego: no
 
 La versión 0.2 es jugable. Menús, opciones, HUD, pausa, confirmación y selector se reconstruyeron con atlas/fuente leídos en ejecución y estados rasterizados observados. Prehistoria usa `D_` (dinosaurio); Futuro usa `P_` (patineta). Orden: Prehistoria, Egipto, Castillo, Piratas, Futuro.
 
+La revisión 0.2.1 añade composición aditiva para `POWER`, caché WebAudio de los 21 efectos/ganancias originales, pasos/escaleras por índices de animación y render interpolado con simulación fija de 60 Hz. No volver a reproducir sonido desde el render ni a pintar `POWER` en mezcla normal. Ver `effects-audio-render.md` y las pruebas nuevas.
+
 Se capturaron las **434 salas** y se cotejó su mundo estático. `assets/data/native-objects.json` contiene la correspondencia de los **1.674 objetos** no-jugador con sus cajas/posiciones reales. No volver a inferirlas del ancho/alto del TMX ni del dibujo del sprite.
 
 ## Primero al retomar
